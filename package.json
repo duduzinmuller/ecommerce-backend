@@ -33,5 +33,20 @@
       "@commitlint/cz-commitlint": "^19.8.1",
       "@commitlint/prompt-cli": "^19.8.1"
     }
+  },
+  "devDependencies": {
+    "@commitlint/config-conventional": "^19.8.1",
+    "@commitlint/cz-commitlint": "^19.8.1",
+    "@eslint/json": "^0.13.1",
+    "@types/pg": "^8.15.5",
+    "drizzle-kit": "^0.31.4",
+    "eslint": "^9.33.0",
+    "lint-staged": "^16.1.5",
+    "tsx": "^4.20.4"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.1",
+    "drizzle-orm": "^0.44.4",
+    "pg": "^8.16.3"
   }
 }
