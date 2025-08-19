@@ -1,0 +1,21 @@
+{
+  "name": "ecommerce-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start:dev": "pnpm run dev",
+    "dev": "tsx src/index.ts"
+  },
+  "keywords": [],
+  "author": "Eduardo M.",
+  "license": "ISC",
+  "packageManager": "pnpm@10.10.0",
+  "devDependencies": {
+    "@eslint/json": "^0.13.1",
+    "eslint": "^9.33.0",
+    "prettier": "^3.6.2",
+    "tsx": "^4.20.4"
+  }
+}
