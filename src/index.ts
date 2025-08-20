@@ -1,3 +1,9 @@
-const nome: string = "Eduardo";
+import express from "express";
 
-console.log(nome);
+const app = express();
+
+app.get("/", (req, res) => {
+  res.send("Ola, mundo");
+});
+
+app.listen(8000, () => console.log("Escutando na porta 8000"));
