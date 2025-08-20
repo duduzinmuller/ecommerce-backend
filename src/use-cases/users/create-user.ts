@@ -1,20 +1,21 @@
-import { v4 as uuidv4 } from "uuid";
-import bcrypt from "bcrypt";
 import { User } from "../../types/user";
 import { CreateUserRepository } from "../../repositories/users/create-user";
 import { GetUserByEmailRepository } from "../../repositories/users/get-user-by-email";
 import { EmailAlreadyInUseError } from "../../error/user";
 import { IdGenerator } from "../../adapters/id-generator";
+import { PasswordHasher } from "../../adapters/password-hasher";
 
 export class CreateUserUseCase {
   constructor(
     private createUserRepository: CreateUserRepository,
     private getUserByEmailRepository: GetUserByEmailRepository,
     private idGenerator: IdGenerator,
+    private passwordHasher: PasswordHasher,
   ) {
     this.createUserRepository = createUserRepository;
     this.getUserByEmailRepository = getUserByEmailRepository;
     this.idGenerator = idGenerator;
+    this.passwordHasher = passwordHasher;
   }
   async execute(createUserParams: User) {
     const withProvidedEmail = await this.getUserByEmailRepository.execute(
@@ -26,7 +27,9 @@ export class CreateUserUseCase {
     }
     const userId = await this.idGenerator.execute();
 
-    const hashedPassword = await bcrypt.hash(createUserParams.password, 10);
+    const hashedPassword = await this.passwordHasher.execute(
+      createUserParams.password,
+    );
 
     const { id, ...restParams } = createUserParams;
 
