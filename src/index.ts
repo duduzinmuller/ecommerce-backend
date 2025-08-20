@@ -1,9 +1,4 @@
-import express from "express";
+import "dotenv/config";
+import { app } from "./app";
 
-const app = express();
-
-app.get("/", (req, res) => {
-  res.send("Ola, mundo");
-});
-
-app.listen(8000, () => console.log("Escutando na porta 8000"));
+app.listen(8000, () => console.log("Rodando na porta 8000"));
