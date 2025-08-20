@@ -5,7 +5,7 @@ import { eq } from "drizzle-orm";
 export class GetUserByEmailRepository {
   async execute(email: string) {
     const result = await db.select().from(users).where(eq(users.email, email));
-
-    return result;
+    const [user] = result;
+    return user ?? null;
   }
 }
