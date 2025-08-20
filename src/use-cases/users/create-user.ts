@@ -1,9 +1,9 @@
 import { v4 as uuidv4 } from "uuid";
 import bcrypt from "bcrypt";
-import { User } from "../types/user";
-import { CreateUserRepository } from "../repositories/users/create-user";
-import { GetUserByEmailRepository } from "../repositories/users/get-user-by-email";
-import { EmailAlreadyInUseError } from "../error/user";
+import { User } from "../../types/user";
+import { CreateUserRepository } from "../../repositories/users/create-user";
+import { GetUserByEmailRepository } from "../../repositories/users/get-user-by-email";
+import { EmailAlreadyInUseError } from "../../error/user";
 
 export class CreateUserUseCase {
   constructor(
