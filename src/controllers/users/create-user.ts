@@ -17,8 +17,6 @@ export class CreateUserController {
 
       const createdUser = await this.createUserUseCase.execute(params);
 
-      console.log(createdUser);
-
       return created(createdUser);
     } catch (error) {
       if (error instanceof ZodError) {
