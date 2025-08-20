@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 import bcrypt from "bcrypt";
 import { User } from "../types/user";
-import { CreateUserRepository } from "../repositories/create-user";
+import { CreateUserRepository } from "../repositories/users/create-user";
 
 export class CreateUserUseCase {
   constructor(private createUserRepository: CreateUserRepository) {
