@@ -26,17 +26,17 @@ export const auth = async (
       return;
     }
 
-    const user = await db
+    const foundUsers = await db
       .select()
       .from(users)
       .where(eq(users.id, decodedToken.userId));
 
-    if (!user) {
+    if (!foundUsers || foundUsers.length === 0) {
       response.status(401).send({ message: "Unauthorized" });
       return;
     }
 
-    request.user = user;
+    request.user = decodedToken.userId;
     request.userId = decodedToken.userId;
 
     next();

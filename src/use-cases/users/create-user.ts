@@ -4,6 +4,7 @@ import { GetUserByEmailRepository } from "../../repositories/users/get-user-by-e
 import { EmailAlreadyInUseError } from "../../error/user";
 import { IdGenerator } from "../../adapters/id-generator";
 import { PasswordHasher } from "../../adapters/password-hasher";
+import { TokensGeneratorAdapter } from "../../adapters/token-generator";
 
 export class CreateUserUseCase {
   constructor(
@@ -11,11 +12,13 @@ export class CreateUserUseCase {
     private getUserByEmailRepository: GetUserByEmailRepository,
     private idGenerator: IdGenerator,
     private passwordHasher: PasswordHasher,
+    private tokensGeneratorAdapter: TokensGeneratorAdapter,
   ) {
     this.createUserRepository = createUserRepository;
     this.getUserByEmailRepository = getUserByEmailRepository;
     this.idGenerator = idGenerator;
     this.passwordHasher = passwordHasher;
+    this.tokensGeneratorAdapter = tokensGeneratorAdapter;
   }
   async execute(createUserParams: User) {
     const withProvidedEmail = await this.getUserByEmailRepository.execute(
@@ -41,6 +44,9 @@ export class CreateUserUseCase {
 
     const createdUser = await this.createUserRepository.execute(user);
 
-    return createdUser;
+    return {
+      ...createdUser,
+      tokens: this.tokensGeneratorAdapter.execute(userId),
+    };
   }
 }
