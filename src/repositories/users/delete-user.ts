@@ -4,8 +4,10 @@ import { users } from "../../db/schema";
 
 export class DeleteUserRepository {
   async execute(userId: string) {
-    const user = await db.delete(users).where(eq(users.id, userId));
+    const user = await db.select().from(users).where(eq(users.id, userId));
 
-    return user;
+    await db.delete(users).where(eq(users.id, userId));
+
+    return user[0];
   }
 }
