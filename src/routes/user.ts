@@ -1,8 +1,9 @@
 import { Request, Response, Router } from "express";
 import {
   MakeCreateUserController,
+  MakeDeleteUserController,
   MakeGetUserByIdController,
-} from "../factiories/user";
+} from "../factories/user";
 import { auth } from "../middleware/auth";
 
 export const userRouter = Router();
@@ -17,6 +18,15 @@ userRouter.get("/me", auth, async (request: Request, response: Response) => {
   const getUser = MakeGetUserByIdController();
   const userId = request.userId;
   const { statusCode, body } = await getUser.execute({
+    params: { userId },
+  });
+  response.status(statusCode).send(body);
+});
+
+userRouter.delete("/me", auth, async (request: Request, response: Response) => {
+  const deletedUser = MakeDeleteUserController();
+  const userId = request.userId;
+  const { statusCode, body } = await deletedUser.execute({
     params: { userId },
   });
   response.status(statusCode).send(body);

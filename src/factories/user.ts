@@ -2,11 +2,14 @@ import { IdGenerator } from "../adapters/id-generator";
 import { PasswordHasher } from "../adapters/password-hasher";
 import { TokensGeneratorAdapter } from "../adapters/token-generator";
 import { CreateUserController } from "../controllers/users/create-user";
+import { DeleteUserController } from "../controllers/users/delete-user";
 import { GetUserByIdController } from "../controllers/users/get-user-by-id";
 import { CreateUserRepository } from "../repositories/users/create-user";
+import { DeleteUserRepository } from "../repositories/users/delete-user";
 import { GetUserByEmailRepository } from "../repositories/users/get-user-by-email";
 import { GetUserByIdRepository } from "../repositories/users/get-user-by-id";
 import { CreateUserUseCase } from "../use-cases/users/create-user";
+import { DeleteUserUseCase } from "../use-cases/users/delete-user";
 import { GetUserByIdUseCase } from "../use-cases/users/get-user-by-id";
 
 export const MakeCreateUserController = () => {
@@ -32,4 +35,11 @@ export const MakeGetUserByIdController = () => {
   const getUserByIdController = new GetUserByIdController(getUserByIdUseCase);
 
   return getUserByIdController;
+};
+
+export const MakeDeleteUserController = () => {
+  const deleteUserRepository = new DeleteUserRepository();
+  const deleteUserUseCase = new DeleteUserUseCase(deleteUserRepository);
+  const deleteUserController = new DeleteUserController(deleteUserUseCase);
+  return deleteUserController;
 };
