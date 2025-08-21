@@ -3,16 +3,11 @@ import {
   MakeCreateUserController,
   MakeDeleteUserController,
   MakeGetUserByIdController,
+  MakeLoginUserController,
 } from "../factories/user";
 import { auth } from "../middleware/auth";
 
 export const userRouter = Router();
-
-userRouter.post("/create", async (request: Request, response: Response) => {
-  const createdUser = MakeCreateUserController();
-  const { statusCode, body } = await createdUser.execute(request);
-  response.status(statusCode).send(body);
-});
 
 userRouter.get("/me", auth, async (request: Request, response: Response) => {
   const getUser = MakeGetUserByIdController();
@@ -20,6 +15,18 @@ userRouter.get("/me", auth, async (request: Request, response: Response) => {
   const { statusCode, body } = await getUser.execute({
     params: { userId },
   });
+  response.status(statusCode).send(body);
+});
+
+userRouter.post("/create", async (request: Request, response: Response) => {
+  const createdUser = MakeCreateUserController();
+  const { statusCode, body } = await createdUser.execute(request);
+  response.status(statusCode).send(body);
+});
+
+userRouter.post("/login", async (request: Request, response: Response) => {
+  const loginUser = MakeLoginUserController();
+  const { statusCode, body } = await loginUser.execute(request);
   response.status(statusCode).send(body);
 });
 
