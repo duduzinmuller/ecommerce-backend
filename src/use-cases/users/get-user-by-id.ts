@@ -5,8 +5,8 @@ export class GetUserByIdUseCase {
     this.getUserByIdRepository = getUserByIdRepository;
   }
 
-  async execute(id: string) {
-    const getUser = await this.getUserByIdRepository.execute(id);
+  async execute(userId: string) {
+    const getUser = await this.getUserByIdRepository.execute(userId);
 
     return getUser;
   }
