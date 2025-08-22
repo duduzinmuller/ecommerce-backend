@@ -1,6 +1,7 @@
-import { IdGenerator } from "../adapters/id-generator";
+import { IdGeneratorAdapter } from "../adapters/id-generator";
 import { PasswordComparatorAdapter } from "../adapters/password-comparator";
-import { PasswordHasher } from "../adapters/password-hasher";
+import { PasswordHasherAdapter } from "../adapters/password-hasher";
+
 import { TokensGeneratorAdapter } from "../adapters/token-generator";
 import { CreateUserController } from "../controllers/users/create-user";
 import { DeleteUserController } from "../controllers/users/delete-user";
@@ -18,14 +19,14 @@ import { LoginUserUseCase } from "../use-cases/users/login-user";
 export const MakeCreateUserController = () => {
   const createUserRepository = new CreateUserRepository();
   const getUserByEmailRepository = new GetUserByEmailRepository();
-  const idGenerator = new IdGenerator();
-  const passwordHasher = new PasswordHasher();
+  const idGeneratorAdapter = new IdGeneratorAdapter();
+  const passwordHasherAdapter = new PasswordHasherAdapter();
   const tokensGeneratorAdapter = new TokensGeneratorAdapter();
   const createUserUseCase = new CreateUserUseCase(
     createUserRepository,
     getUserByEmailRepository,
-    idGenerator,
-    passwordHasher,
+    idGeneratorAdapter,
+    passwordHasherAdapter,
     tokensGeneratorAdapter,
   );
   const createUserController = new CreateUserController(createUserUseCase);
