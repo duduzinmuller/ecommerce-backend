@@ -4,11 +4,14 @@ import { Category } from "../../types/category";
 
 export class CreateCategoryRepository {
   async execute(createCategoryParams: Category) {
-    const category = await db.insert(categories).values({
-      id: createCategoryParams.id,
-      name: createCategoryParams.name,
-      slug: createCategoryParams.slug,
-    });
+    const category = await db
+      .insert(categories)
+      .values({
+        id: createCategoryParams.id,
+        name: createCategoryParams.name,
+        slug: createCategoryParams.slug,
+      })
+      .returning();
 
     return category;
   }
