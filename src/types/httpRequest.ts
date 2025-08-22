@@ -3,6 +3,7 @@ export interface HttpRequest {
     userId?: string;
     paymentId?: string;
     provider?: string;
+    slug?: string;
   };
   body?: any;
   user?: string;
