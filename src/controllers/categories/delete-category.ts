@@ -9,7 +9,7 @@ export class DeleteCategoryController {
   }
   async execute(httpRequest: HttpRequest) {
     try {
-      const slug = httpRequest.params?.userId;
+      const slug = httpRequest.params?.slug;
 
       if (!slug) {
         return invalidSlugResponse();
