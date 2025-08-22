@@ -1,7 +1,7 @@
 import { UserNotFoundError } from "../../error/user";
 import { HttpRequest } from "../../types/httpRequest";
 import { DeleteUserUseCase } from "../../use-cases/users/delete-user";
-import { notFound, ok, serverError } from "../helpers/http";
+import { ok, serverError } from "../helpers/http";
 import { userNotFoundResponse } from "../helpers/user";
 import { checkIfIdIsValid, invalidIdResponse } from "../helpers/validation";
 
