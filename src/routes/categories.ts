@@ -1,6 +1,7 @@
 import { Router, Request, Response } from "express";
 import {
   MakeCreateCategoryController,
+  MakeDeleteCategoryController,
   MakeGetCategoryBySlugController,
 } from "../factories/categories";
 
@@ -17,3 +18,12 @@ categoryRouter.get("/:slug", async (request: Request, response: Response) => {
   const { statusCode, body } = await getCategoryBySlug.execute(request);
   response.status(statusCode).send(body);
 });
+
+categoryRouter.delete(
+  "/:slug",
+  async (request: Request, response: Response) => {
+    const deletedCategory = MakeDeleteCategoryController();
+    const { statusCode, body } = await deletedCategory.execute(request);
+    response.status(statusCode).send(body);
+  },
+);
