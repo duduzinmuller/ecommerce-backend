@@ -1,12 +1,15 @@
 import { IdGeneratorAdapter } from "../adapters/id-generator";
 import { CreateCategoryController } from "../controllers/categories/create-category";
 import { DeleteCategoryController } from "../controllers/categories/delete-category";
+import { GetCategoryByIdController } from "../controllers/categories/get-category-by-id";
 import { GetCategoryBySlugController } from "../controllers/categories/get-category-by-slug";
 import { CreateCategoryRepository } from "../repositories/categories/create-category";
 import { DeleteCategoryRepository } from "../repositories/categories/delete-category";
+import { GetCategoryByIdRepository } from "../repositories/categories/get-category-by-id";
 import { GetCategoryBySlugRepository } from "../repositories/categories/get-category-by-slug";
 import { CreateCategoryUseCase } from "../use-cases/categories/create-category";
 import { DeleteCategoryUseCase } from "../use-cases/categories/delete-category";
+import { GetCategoryByIdUseCase } from "../use-cases/categories/get-category-by-id";
 import { GetCategoryBySlugUseCase } from "../use-cases/categories/get-category-by-slug";
 
 export const MakeCreateCategoryController = () => {
@@ -33,6 +36,17 @@ export const MakeGetCategoryBySlugController = () => {
     getCategoryBySlugUseCase,
   );
   return getCategoryBySlugController;
+};
+
+export const MakeGetCategoryByIdController = () => {
+  const getCategoryByIdRepository = new GetCategoryByIdRepository();
+  const getCategoryByIdUseCase = new GetCategoryByIdUseCase(
+    getCategoryByIdRepository,
+  );
+  const getCategoryByIdController = new GetCategoryByIdController(
+    getCategoryByIdUseCase,
+  );
+  return getCategoryByIdController;
 };
 
 export const MakeDeleteCategoryController = () => {

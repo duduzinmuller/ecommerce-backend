@@ -2,6 +2,7 @@ import { Router, Request, Response } from "express";
 import {
   MakeCreateCategoryController,
   MakeDeleteCategoryController,
+  MakeGetCategoryByIdController,
   MakeGetCategoryBySlugController,
 } from "../factories/categories";
 
@@ -13,11 +14,23 @@ categoryRouter.post("/create", async (request: Request, response: Response) => {
   response.status(statusCode).send(body);
 });
 
-categoryRouter.get("/:slug", async (request: Request, response: Response) => {
-  const getCategoryBySlug = MakeGetCategoryBySlugController();
-  const { statusCode, body } = await getCategoryBySlug.execute(request);
-  response.status(statusCode).send(body);
-});
+categoryRouter.get(
+  "/:categoryId",
+  async (request: Request, response: Response) => {
+    const getCategoryById = MakeGetCategoryByIdController();
+    const { statusCode, body } = await getCategoryById.execute(request);
+    response.status(statusCode).send(body);
+  },
+);
+
+categoryRouter.get(
+  "/slug/:slug",
+  async (request: Request, response: Response) => {
+    const getCategoryBySlug = MakeGetCategoryBySlugController();
+    const { statusCode, body } = await getCategoryBySlug.execute(request);
+    response.status(statusCode).send(body);
+  },
+);
 
 categoryRouter.delete(
   "/:slug",
