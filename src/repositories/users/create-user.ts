@@ -1,6 +1,6 @@
 import { db } from "../../db";
 import { users } from "../../db/schema";
-import { User } from "../../types/user";
+import { User } from "../../interfaces/user";
 
 export class CreateUserRepository {
   async execute(createUserParams: User) {

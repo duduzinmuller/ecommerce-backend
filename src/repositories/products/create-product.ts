@@ -1,6 +1,6 @@
 import { db } from "../../db";
 import { products } from "../../db/schema";
-import { Product } from "../../types/product";
+import { Product } from "../../interfaces/product";
 
 export class CreateProductRepository {
   async execute(createProductParams: Product) {

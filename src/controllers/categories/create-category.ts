@@ -1,5 +1,5 @@
 import { ZodError } from "zod";
-import { HttpRequest } from "../../types/httpRequest";
+import { HttpRequest } from "../../interfaces/httpRequest";
 import { badRequest, created, serverError } from "../helpers/http";
 import { createCategorySchema } from "../../schema/category";
 import { CreateCategoryUseCase } from "../../use-cases/categories/create-category";

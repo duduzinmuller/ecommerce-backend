@@ -1,6 +1,6 @@
 import { ZodError } from "zod";
 import { createUserSchema } from "../../schema/user";
-import { HttpRequest } from "../../types/httpRequest";
+import { HttpRequest } from "../../interfaces/httpRequest";
 import { CreateUserUseCase } from "../../use-cases/users/create-user";
 import { badRequest, created, serverError } from "../helpers/http";
 import { EmailAlreadyInUseError } from "../../error/user";

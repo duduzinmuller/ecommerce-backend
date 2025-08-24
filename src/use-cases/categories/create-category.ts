@@ -2,7 +2,7 @@ import { IdGeneratorAdapter } from "../../adapters/id-generator";
 import { SlugAlreadyInCreateError } from "../../error/category";
 import { CreateCategoryRepository } from "../../repositories/categories/create-category";
 import { GetCategoryBySlugRepository } from "../../repositories/categories/get-category-by-slug";
-import { Category } from "../../types/category";
+import { Category } from "../../interfaces/category";
 
 export class CreateCategoryUseCase {
   constructor(

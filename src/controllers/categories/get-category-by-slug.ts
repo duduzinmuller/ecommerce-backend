@@ -1,4 +1,4 @@
-import { HttpRequest } from "../../types/httpRequest";
+import { HttpRequest } from "../../interfaces/httpRequest";
 import { GetCategoryBySlugUseCase } from "../../use-cases/categories/get-category-by-slug";
 import { notFound, ok, serverError } from "../helpers/http";
 import { invalidSlugResponse } from "../helpers/validation";

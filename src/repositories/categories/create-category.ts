@@ -1,6 +1,6 @@
 import { db } from "../../db";
 import { categories } from "../../db/schema";
-import { Category } from "../../types/category";
+import { Category } from "../../interfaces/category";
 
 export class CreateCategoryRepository {
   async execute(createCategoryParams: Category) {

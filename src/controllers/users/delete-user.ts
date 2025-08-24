@@ -1,5 +1,5 @@
 import { UserNotFoundError } from "../../error/user";
-import { HttpRequest } from "../../types/httpRequest";
+import { HttpRequest } from "../../interfaces/httpRequest";
 import { DeleteUserUseCase } from "../../use-cases/users/delete-user";
 import { ok, serverError } from "../helpers/http";
 import { userNotFoundResponse } from "../helpers/user";

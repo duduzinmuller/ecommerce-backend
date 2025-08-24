@@ -1,4 +1,4 @@
-import { HttpRequest } from "../../types/httpRequest";
+import { HttpRequest } from "../../interfaces/httpRequest";
 import { GetUserByIdUseCase } from "../../use-cases/users/get-user-by-id";
 import { badRequest, notFound, ok, serverError } from "../helpers/http";
 import { checkIfIdIsValid, invalidIdResponse } from "../helpers/validation";

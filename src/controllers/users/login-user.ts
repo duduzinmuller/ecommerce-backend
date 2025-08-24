@@ -3,7 +3,7 @@ import { ZodError } from "zod";
 import { badRequest, ok, serverError, unauthorized } from "../helpers/http";
 import { userNotFoundResponse } from "../helpers/user";
 
-import { HttpRequest } from "../../types/httpRequest";
+import { HttpRequest } from "../../interfaces/httpRequest";
 import { LoginUserUseCase } from "../../use-cases/users/login-user";
 import { loginSchema } from "../../schema/user";
 import { InvalidPasswordError, UserNotFoundError } from "../../error/user";

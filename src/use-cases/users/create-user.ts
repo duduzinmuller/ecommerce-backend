@@ -1,4 +1,4 @@
-import { User } from "../../types/user";
+import { User } from "../../interfaces/user";
 import { CreateUserRepository } from "../../repositories/users/create-user";
 import { GetUserByEmailRepository } from "../../repositories/users/get-user-by-email";
 import { EmailAlreadyInUseError } from "../../error/user";

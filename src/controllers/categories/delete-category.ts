@@ -1,4 +1,4 @@
-import { HttpRequest } from "../../types/httpRequest";
+import { HttpRequest } from "../../interfaces/httpRequest";
 import { DeleteCategoryUseCase } from "../../use-cases/categories/delete-category";
 import { notFound, ok, serverError } from "../helpers/http";
 import { invalidSlugResponse } from "../helpers/validation";
