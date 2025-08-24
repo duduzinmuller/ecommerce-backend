@@ -11,8 +11,8 @@ export class CreateProductUseCase {
     private idGeneratorAdapter: IdGeneratorAdapter,
   ) {
     this.createProductRepository = createProductRepository;
-    ((this.getProductBySlugRepository = getProductBySlugRepository),
-      (this.idGeneratorAdapter = idGeneratorAdapter));
+    this.getProductBySlugRepository = getProductBySlugRepository;
+    this.idGeneratorAdapter = idGeneratorAdapter;
   }
   async execute(createProductParams: Product) {
     const slugProductIsExists = await this.getProductBySlugRepository.execute(
