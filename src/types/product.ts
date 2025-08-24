@@ -3,7 +3,7 @@ export interface Product {
   name: string;
   slug: string;
   description: string;
-  price: string; // decimal in database
+  price: string;
   stock: number;
   category_id: string;
   image_url: string;
