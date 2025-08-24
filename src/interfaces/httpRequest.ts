@@ -4,6 +4,7 @@ export interface HttpRequest {
     paymentId?: string;
     provider?: string;
     slug?: string;
+    categoryId?: string;
   };
   body?: any;
   user?: string;
