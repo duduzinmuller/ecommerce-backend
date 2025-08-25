@@ -7,8 +7,9 @@ export class GetCategoryBySlugUseCase {
     this.getCategoryBySlugRepository = getCategoryBySlugRepository;
   }
   async execute(slug: string) {
-    const category = await this.getCategoryBySlugRepository.execute(slug);
+    const categoryWithProducts =
+      await this.getCategoryBySlugRepository.execute(slug);
 
-    return category;
+    return categoryWithProducts;
   }
 }
