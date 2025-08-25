@@ -1,6 +1,10 @@
 import { IdGeneratorAdapter } from "../../adapters/id-generator";
-import { SlugAlreadyInCreateError } from "../../error/category";
+import {
+  CategoryIsNotFound,
+  SlugAlreadyInCreateError,
+} from "../../error/category";
 import { Product } from "../../interfaces/product";
+import { GetCategoryByIdRepository } from "../../repositories/categories/get-category-by-id";
 import { CreateProductRepository } from "../../repositories/products/create-product";
 import { GetProductBySlugRepository } from "../../repositories/products/get-product-by-slug";
 
@@ -9,10 +13,12 @@ export class CreateProductUseCase {
     private createProductRepository: CreateProductRepository,
     private getProductBySlugRepository: GetProductBySlugRepository,
     private idGeneratorAdapter: IdGeneratorAdapter,
+    private getCategoryByIdRepository: GetCategoryByIdRepository,
   ) {
     this.createProductRepository = createProductRepository;
     this.getProductBySlugRepository = getProductBySlugRepository;
     this.idGeneratorAdapter = idGeneratorAdapter;
+    this.getCategoryByIdRepository = getCategoryByIdRepository;
   }
   async execute(createProductParams: Product) {
     const slugProductIsExists = await this.getProductBySlugRepository.execute(
@@ -22,6 +28,14 @@ export class CreateProductUseCase {
       throw new SlugAlreadyInCreateError(createProductParams.slug);
     }
     const productId = await this.idGeneratorAdapter.execute();
+
+    const category = await this.getCategoryByIdRepository.execute(
+      createProductParams.category_id,
+    );
+
+    if (!category) {
+      throw new CategoryIsNotFound();
+    }
 
     const { id, ...restParams } = createProductParams;
 

@@ -4,3 +4,10 @@ export class SlugAlreadyInCreateError extends Error {
     this.name = "SlugAlreadyInCreateError";
   }
 }
+
+export class CategoryIsNotFound extends Error {
+  constructor() {
+    super("Categoria não encontrada");
+    this.name = "CategoryIsNotFound";
+  }
+}
