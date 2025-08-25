@@ -33,6 +33,8 @@ export const products = pgTable("products", {
   stock: integer("stock").notNull().default(0),
   category_id: text("category_id").notNull(),
   image_url: text("image_url"),
+  created_at: timestamp("created_at").notNull().defaultNow(),
+  updated_at: timestamp("updated_at").notNull().defaultNow(),
 });
 
 export const orders = pgTable("orders", {

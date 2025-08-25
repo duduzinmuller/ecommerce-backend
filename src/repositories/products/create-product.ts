@@ -15,6 +15,8 @@ export class CreateProductRepository {
         description: createProductParams.description,
         category_id: createProductParams.category_id,
         image_url: createProductParams.image_url,
+        created_at: new Date(),
+        updated_at: new Date(),
       })
       .returning();
 
