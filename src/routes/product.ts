@@ -2,6 +2,7 @@ import { Router, Response, Request } from "express";
 import {
   MakeCreateProductController,
   MakeGetProductBySlugController,
+  MakeGetProductByNameController,
 } from "../factories/product";
 
 export const productRouter = Router();
@@ -9,6 +10,12 @@ export const productRouter = Router();
 productRouter.post("/create", async (request: Request, response: Response) => {
   const createdProduct = MakeCreateProductController();
   const { statusCode, body } = await createdProduct.execute(request);
+  response.status(statusCode).send(body);
+});
+
+productRouter.get("/search", async (request: Request, response: Response) => {
+  const getByName = MakeGetProductByNameController();
+  const { statusCode, body } = await getByName.execute(request);
   response.status(statusCode).send(body);
 });
 
