@@ -10,5 +10,7 @@ export interface HttpRequest {
   user?: string;
   userId?: string;
   file?: string;
-  query?: unknown;
+  query?: {
+    productName?: string;
+  };
 }
