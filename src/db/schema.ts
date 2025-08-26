@@ -31,7 +31,7 @@ export const products = pgTable("products", {
   description: text("description").notNull(),
   price: decimal("price", { precision: 10, scale: 2 }).notNull(),
   stock: integer("stock").notNull().default(0),
-  category_id: text("category_id").notNull(),
+  category_id: uuid("category_id").notNull(),
   image_url: text("image_url"),
   created_at: timestamp("created_at").notNull().defaultNow(),
   updated_at: timestamp("updated_at").notNull().defaultNow(),
@@ -39,7 +39,7 @@ export const products = pgTable("products", {
 
 export const orders = pgTable("orders", {
   id: uuid("id").primaryKey(),
-  user_id: text("user_id").notNull(),
+  user_id: uuid("user_id").notNull(),
   order_date: timestamp("order_date").notNull().defaultNow(),
   status: varchar("status", { length: 50 }).notNull().default("pending"),
   total: decimal("total", { precision: 10, scale: 2 }).notNull(),
