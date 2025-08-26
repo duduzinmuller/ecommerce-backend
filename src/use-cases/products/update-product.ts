@@ -28,12 +28,14 @@ export class UpdateProductUseCase {
       }
     }
 
-    const category = await this.getCategoryByIdRepository.execute(
-      updateProductParams.category_id!,
-    );
+    if (updateProductParams.category_id) {
+      const category = await this.getCategoryByIdRepository.execute(
+        updateProductParams.category_id,
+      );
 
-    if (!category) {
-      throw new CategoryIsNotFound();
+      if (!category) {
+        throw new CategoryIsNotFound();
+      }
     }
 
     const product = { ...updateProductParams };
