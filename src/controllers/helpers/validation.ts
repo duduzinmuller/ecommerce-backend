@@ -11,3 +11,6 @@ export const requiredFieldsIsMissingResponse = (field: string) =>
   badRequest(`O campo ${field} e obrigatório.`);
 
 export const invalidSlugResponse = () => badRequest("O slug e obrigatorio");
+
+export const requiredCartIdResponse = () =>
+  badRequest("O ID do carrinho é obrigatório.");
