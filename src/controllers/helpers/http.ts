@@ -18,6 +18,11 @@ export const unauthorized = (message: string) => ({
   body: { error: message },
 });
 
+export const forbidden = (message: string) => ({
+  statusCode: 403,
+  body: { error: message },
+});
+
 export const notFound = (message: string) => ({
   statusCode: 404,
   body: { error: message },
