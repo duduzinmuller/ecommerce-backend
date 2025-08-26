@@ -21,7 +21,7 @@ export class CreateCartController {
       return created(createdCart);
     } catch (error) {
       if (error instanceof ZodError) {
-        return badRequest(error.issues[0].message);
+        return badRequest(error.issues[0]?.message);
       }
       if (error instanceof UserNotFoundError) {
         return userNotFoundResponse(error.message);
