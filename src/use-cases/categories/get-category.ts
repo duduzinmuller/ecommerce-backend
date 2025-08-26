@@ -1,13 +1,12 @@
-import { Category } from "../../interfaces/category";
 import { GetCategoryRepository } from "../../repositories/categories/get-category";
 
 export class GetCategoryUseCase {
   constructor(private getCategoryRepository: GetCategoryRepository) {
     this.getCategoryRepository = getCategoryRepository;
   }
-  async execute(getCategories: Category) {
-    const getCategory = await this.getCategoryRepository.execute(getCategories);
+  async execute() {
+    const getCategories = await this.getCategoryRepository.execute();
 
-    return getCategory;
+    return getCategories;
   }
 }
