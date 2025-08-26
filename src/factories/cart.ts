@@ -1,13 +1,10 @@
 import { IdGeneratorAdapter } from "../adapters/id-generator";
 import { CreateCartController } from "../controllers/carts/create-cart";
-import { GetCartByIdController } from "../controllers/carts/get-cart-by-id";
 import { GetCartByUserIdController } from "../controllers/carts/get-cart-by-user-id";
 import { CreateCartRepository } from "../repositories/carts/create-cart";
-import { GetCartByIdRepository } from "../repositories/carts/get-cart-by-id";
 import { GetCartByUserIdRepository } from "../repositories/carts/get-cart-by-user-id";
 import { GetUserByIdRepository } from "../repositories/users/get-user-by-id";
 import { CreateCartUseCase } from "../use-cases/carts/create-cart";
-import { GetCartByIdUseCase } from "../use-cases/carts/get-cart-by-id";
 import { GetCartByUserIdUseCase } from "../use-cases/carts/get-cart-by-user-id";
 
 export const MakeCreateCartController = () => {
