@@ -4,6 +4,7 @@ import {
   MakeDeleteCategoryController,
   MakeGetCategoryByIdController,
   MakeGetCategoryBySlugController,
+  MakeGetCategoryController,
 } from "../factories/categories";
 
 export const categoryRouter = Router();
@@ -11,6 +12,12 @@ export const categoryRouter = Router();
 categoryRouter.post("/create", async (request: Request, response: Response) => {
   const createdCategory = MakeCreateCategoryController();
   const { statusCode, body } = await createdCategory.execute(request);
+  response.status(statusCode).send(body);
+});
+
+categoryRouter.get("/", async (request: Request, response: Response) => {
+  const getCategories = MakeGetCategoryController();
+  const { statusCode, body } = await getCategories.execute(request);
   response.status(statusCode).send(body);
 });
 
