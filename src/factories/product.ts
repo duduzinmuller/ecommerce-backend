@@ -2,13 +2,16 @@ import { IdGeneratorAdapter } from "../adapters/id-generator";
 import { CreateProductController } from "../controllers/products/create-product";
 import { GetProductByNameController } from "../controllers/products/get-product-by-name";
 import { GetProductBySlugController } from "../controllers/products/get-product-by-slug";
+import { UpdateProductController } from "../controllers/products/update-product";
 import { GetCategoryByIdRepository } from "../repositories/categories/get-category-by-id";
 import { CreateProductRepository } from "../repositories/products/create-product";
 import { GetProductByNameRepository } from "../repositories/products/get-product-by-name";
 import { GetProductBySlugRepository } from "../repositories/products/get-product-by-slug";
+import { UpdateProductRepository } from "../repositories/products/update-product";
 import { CreateProductUseCase } from "../use-cases/products/create-product";
 import { GetProductByNameUseCase } from "../use-cases/products/get-product-by-name";
 import { GetProductBySlugUseCase } from "../use-cases/products/get-product-by-slug";
+import { UpdateProductUseCase } from "../use-cases/products/update-product";
 
 export const MakeCreateProductController = () => {
   const createProductRepository = new CreateProductRepository();
@@ -47,4 +50,19 @@ export const MakeGetProductBySlugController = () => {
     getProductBySlugUseCase,
   );
   return getProductBySlugController;
+};
+
+export const MakeUpdateProductController = () => {
+  const getProductBySlugRepository = new GetProductBySlugRepository();
+  const getCategoryByIdRepository = new GetCategoryByIdRepository();
+  const updateProductRepository = new UpdateProductRepository();
+  const updateProductUseCase = new UpdateProductUseCase(
+    getProductBySlugRepository,
+    getCategoryByIdRepository,
+    updateProductRepository,
+  );
+  const updateProductController = new UpdateProductController(
+    updateProductUseCase,
+  );
+  return updateProductController;
 };

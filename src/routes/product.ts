@@ -3,6 +3,7 @@ import {
   MakeCreateProductController,
   MakeGetProductBySlugController,
   MakeGetProductByNameController,
+  MakeUpdateProductController,
 } from "../factories/product";
 
 export const productRouter = Router();
@@ -24,6 +25,15 @@ productRouter.get(
   async (request: Request, response: Response) => {
     const getProductBySlug = MakeGetProductBySlugController();
     const { statusCode, body } = await getProductBySlug.execute(request);
+    response.status(statusCode).send(body);
+  },
+);
+
+productRouter.patch(
+  "/slug/:slug",
+  async (request: Request, response: Response) => {
+    const updatedProduct = MakeUpdateProductController();
+    const { statusCode, body } = await updatedProduct.execute(request);
     response.status(statusCode).send(body);
   },
 );
