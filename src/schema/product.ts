@@ -29,3 +29,5 @@ export const createProductSchema = z.object({
   category_id: z.string().trim().min(1, "A categoria é obrigatória"),
   image_url: z.string().url("A URL da imagem deve ser válida").optional(),
 });
+
+export const updateProductSchema = createProductSchema.partial().strict();
