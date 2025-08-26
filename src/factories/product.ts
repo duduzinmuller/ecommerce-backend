@@ -1,14 +1,17 @@
 import { IdGeneratorAdapter } from "../adapters/id-generator";
 import { CreateProductController } from "../controllers/products/create-product";
+import { DeleteProductController } from "../controllers/products/delete-product";
 import { GetProductByNameController } from "../controllers/products/get-product-by-name";
 import { GetProductBySlugController } from "../controllers/products/get-product-by-slug";
 import { UpdateProductController } from "../controllers/products/update-product";
 import { GetCategoryByIdRepository } from "../repositories/categories/get-category-by-id";
 import { CreateProductRepository } from "../repositories/products/create-product";
+import { DeleteProductRepository } from "../repositories/products/delete-product";
 import { GetProductByNameRepository } from "../repositories/products/get-product-by-name";
 import { GetProductBySlugRepository } from "../repositories/products/get-product-by-slug";
 import { UpdateProductRepository } from "../repositories/products/update-product";
 import { CreateProductUseCase } from "../use-cases/products/create-product";
+import { DeleteProductUseCase } from "../use-cases/products/delete-product";
 import { GetProductByNameUseCase } from "../use-cases/products/get-product-by-name";
 import { GetProductBySlugUseCase } from "../use-cases/products/get-product-by-slug";
 import { UpdateProductUseCase } from "../use-cases/products/update-product";
@@ -65,4 +68,15 @@ export const MakeUpdateProductController = () => {
     updateProductUseCase,
   );
   return updateProductController;
+};
+
+export const MakeDeleteProductController = () => {
+  const deleteProductRepository = new DeleteProductRepository();
+  const deleteProductUseCase = new DeleteProductUseCase(
+    deleteProductRepository,
+  );
+  const deleteProductController = new DeleteProductController(
+    deleteProductUseCase,
+  );
+  return deleteProductController;
 };

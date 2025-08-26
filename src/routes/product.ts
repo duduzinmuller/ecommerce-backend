@@ -4,6 +4,7 @@ import {
   MakeGetProductBySlugController,
   MakeGetProductByNameController,
   MakeUpdateProductController,
+  MakeDeleteProductController,
 } from "../factories/product";
 
 export const productRouter = Router();
@@ -34,6 +35,15 @@ productRouter.patch(
   async (request: Request, response: Response) => {
     const updatedProduct = MakeUpdateProductController();
     const { statusCode, body } = await updatedProduct.execute(request);
+    response.status(statusCode).send(body);
+  },
+);
+
+productRouter.delete(
+  "/slug/:slug",
+  async (request: Request, response: Response) => {
+    const deletedProduct = MakeDeleteProductController();
+    const { statusCode, body } = await deletedProduct.execute(request);
     response.status(statusCode).send(body);
   },
 );
