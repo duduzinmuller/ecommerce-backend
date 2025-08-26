@@ -5,7 +5,7 @@ import {
   MakeGetCategoryByIdController,
   MakeGetCategoryBySlugController,
   MakeGetCategoryController,
-} from "../factories/categories";
+} from "../factories/category";
 
 export const categoryRouter = Router();
 
