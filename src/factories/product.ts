@@ -1,17 +1,20 @@
 import { IdGeneratorAdapter } from "../adapters/id-generator";
 import { CreateProductController } from "../controllers/products/create-product";
 import { DeleteProductController } from "../controllers/products/delete-product";
+import { GetProductController } from "../controllers/products/get-product";
 import { GetProductByNameController } from "../controllers/products/get-product-by-name";
 import { GetProductBySlugController } from "../controllers/products/get-product-by-slug";
 import { UpdateProductController } from "../controllers/products/update-product";
 import { GetCategoryByIdRepository } from "../repositories/categories/get-category-by-id";
 import { CreateProductRepository } from "../repositories/products/create-product";
 import { DeleteProductRepository } from "../repositories/products/delete-product";
+import { GetProductRepository } from "../repositories/products/get-product";
 import { GetProductByNameRepository } from "../repositories/products/get-product-by-name";
 import { GetProductBySlugRepository } from "../repositories/products/get-product-by-slug";
 import { UpdateProductRepository } from "../repositories/products/update-product";
 import { CreateProductUseCase } from "../use-cases/products/create-product";
 import { DeleteProductUseCase } from "../use-cases/products/delete-product";
+import { GetProductUseCase } from "../use-cases/products/get-product";
 import { GetProductByNameUseCase } from "../use-cases/products/get-product-by-name";
 import { GetProductBySlugUseCase } from "../use-cases/products/get-product-by-slug";
 import { UpdateProductUseCase } from "../use-cases/products/update-product";
@@ -31,6 +34,13 @@ export const MakeCreateProductController = () => {
     createProductUseCase,
   );
   return createProductController;
+};
+
+export const MakeGetProductController = () => {
+  const getProductRepository = new GetProductRepository();
+  const getProductUseCase = new GetProductUseCase(getProductRepository);
+  const getProductController = new GetProductController(getProductUseCase);
+  return getProductController;
 };
 
 export const MakeGetProductByNameController = () => {

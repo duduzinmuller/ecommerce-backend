@@ -5,6 +5,7 @@ import {
   MakeGetProductByNameController,
   MakeUpdateProductController,
   MakeDeleteProductController,
+  MakeGetProductController,
 } from "../factories/product";
 
 export const productRouter = Router();
@@ -12,6 +13,12 @@ export const productRouter = Router();
 productRouter.post("/create", async (request: Request, response: Response) => {
   const createdProduct = MakeCreateProductController();
   const { statusCode, body } = await createdProduct.execute(request);
+  response.status(statusCode).send(body);
+});
+
+productRouter.get("/", async (request: Request, response: Response) => {
+  const getProducts = MakeGetProductController();
+  const { statusCode, body } = await getProducts.execute(request);
   response.status(statusCode).send(body);
 });
 
