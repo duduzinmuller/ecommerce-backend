@@ -13,15 +13,19 @@ export class UpdateCartItemController {
   async execute(httpRequest: HttpRequest) {
     try {
       const itemId = httpRequest.params?.itemId;
-      const params = httpRequest.body;
+      const body = httpRequest.body;
 
       if (!itemId) {
         return badRequest("ID do item é obrigatório");
       }
 
-      await updateCartItemSchema.parse(params);
+      const validatedData = updateCartItemSchema.parse(body);
+      const { quantity } = validatedData;
 
-      const cartItem = await this.updateCartItemUseCase.execute(itemId, params);
+      const cartItem = await this.updateCartItemUseCase.execute(
+        itemId,
+        quantity,
+      );
 
       if (!cartItem) {
         return notFound("Item do carrinho não encontrado");
