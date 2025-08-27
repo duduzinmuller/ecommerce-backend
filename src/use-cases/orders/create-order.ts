@@ -1,11 +1,11 @@
 import { IdGeneratorAdapter } from "../../adapters/id-generator";
-import { EmptyCartError } from "../../error/cart-item";
-import { CategoryIsNotFound } from "../../error/category";
+import { CartNotFoundError, EmptyCartError } from "../../error/cart-item";
 import { UserNotFoundError } from "../../error/user";
 import { Order } from "../../interfaces/order";
 import { GetCartByUserIdRepository } from "../../repositories/carts/get-cart-by-user-id";
 import { CreateOrderRepository } from "../../repositories/orders/create-order";
 import { GetUserByIdRepository } from "../../repositories/users/get-user-by-id";
+import { addDecimalStrings, multiplyDecimalByInt } from "../../utils/money";
 
 export class CreateOrderUseCase {
   constructor(
@@ -35,18 +35,26 @@ export class CreateOrderUseCase {
     );
 
     if (!cart) {
-      throw new CategoryIsNotFound();
+      throw new CartNotFoundError();
     }
 
     if (cart.items.length === 0) {
       throw new EmptyCartError();
     }
 
+    let total = "0.00";
+    for (const item of cart.items) {
+      total = addDecimalStrings(
+        total,
+        multiplyDecimalByInt(item.price, item.quantity),
+      );
+    }
     const { id, ...restParams } = createOrderParams;
 
     const order = {
       id: orderId,
       ...restParams,
+      total,
     };
 
     const createdOrder = await this.createOrderRepository.execute(order);
