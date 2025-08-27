@@ -9,6 +9,6 @@ export class RemoveCartItemRepository {
       .where(eq(cart_items.id, itemId))
       .returning();
 
-    return !!deletedItem;
+    return deletedItem;
   }
 }
