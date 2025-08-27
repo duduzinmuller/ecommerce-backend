@@ -6,6 +6,7 @@ import {
   decimal,
   varchar,
   uuid,
+  pgEnum,
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 
@@ -37,11 +38,18 @@ export const products = pgTable("products", {
   updated_at: timestamp("updated_at").notNull().defaultNow(),
 });
 
+export const order_status = pgEnum("order_status", [
+  "pending",
+  "completed",
+  "failed",
+  "canceled",
+]);
+
 export const orders = pgTable("orders", {
   id: uuid("id").primaryKey(),
   user_id: text("user_id").notNull(),
   order_date: timestamp("order_date").notNull().defaultNow(),
-  status: varchar("status", { length: 50 }).notNull().default("pending"),
+  status: order_status("status").notNull().default("pending"),
   total: decimal("total", { precision: 10, scale: 2 }).notNull(),
   delivery_street: varchar("delivery_street", { length: 255 }).notNull(),
   delivery_number: varchar("delivery_number", { length: 20 }).notNull(),
