@@ -6,7 +6,7 @@ import {
   CartItemWithProduct,
 } from "../../interfaces/cart-item";
 export class CreateCartItemRepository {
-  async execute(data: CreateCartItemRequest): Promise<CartItemWithProduct> {
+  async execute(data: CreateCartItemRequest) {
     const [product] = await db
       .select({
         id: products.id,
