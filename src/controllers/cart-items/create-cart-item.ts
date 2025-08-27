@@ -1,3 +1,8 @@
+import { ZodError } from "zod";
+import {
+  IdCartAndProductId,
+  QuantityProductError,
+} from "../../error/cart-item";
 import { HttpRequest } from "../../interfaces/httpRequest";
 import { createCartItemSchema } from "../../schema/cart-item";
 import { CreateCartItemUseCase } from "../../use-cases/cart-items/create-cart-item";
@@ -18,12 +23,16 @@ export class CreateCartItemController {
 
       return created(cartItem);
     } catch (error) {
-      console.error(error);
-
-      if (error instanceof Error) {
+      if (error instanceof ZodError) {
+        return badRequest(error.issues[0]?.message);
+      }
+      if (error instanceof IdCartAndProductId) {
         return badRequest(error.message);
       }
-
+      if (error instanceof QuantityProductError) {
+        return badRequest(error.message);
+      }
+      console.error(error);
       return serverError();
     }
   }
