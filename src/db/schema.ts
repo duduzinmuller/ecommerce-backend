@@ -32,7 +32,7 @@ export const products = pgTable("products", {
   description: text("description").notNull(),
   price: decimal("price", { precision: 10, scale: 2 }).notNull(),
   stock: integer("stock").notNull().default(0),
-  category_id: text("category_id").notNull(),
+  category_id: uuid("category_id").notNull(),
   image_url: text("image_url"),
   created_at: timestamp("created_at").notNull().defaultNow(),
   updated_at: timestamp("updated_at").notNull().defaultNow(),
@@ -47,7 +47,7 @@ export const order_status = pgEnum("order_status", [
 
 export const orders = pgTable("orders", {
   id: uuid("id").primaryKey(),
-  user_id: text("user_id").notNull(),
+  user_id: uuid("user_id").notNull(),
   order_date: timestamp("order_date").notNull().defaultNow(),
   status: order_status("status").notNull().default("pending"),
   total: decimal("total", { precision: 10, scale: 2 }).notNull(),
@@ -64,22 +64,22 @@ export const orders = pgTable("orders", {
 });
 export const carts = pgTable("carts", {
   id: uuid("id").primaryKey(),
-  user_id: text("user_id").notNull(),
+  user_id: uuid("user_id").notNull(),
   created_at: timestamp("created_at").notNull().defaultNow(),
   updated_at: timestamp("updated_at").notNull().defaultNow(),
 });
 
 export const cart_items = pgTable("cart_items", {
   id: uuid("id").primaryKey(),
-  cart_id: text("cart_id").notNull(),
-  product_id: text("product_id").notNull(),
+  cart_id: uuid("cart_id").notNull(),
+  product_id: uuid("product_id").notNull(),
   quantity: integer("quantity").notNull().default(1),
 });
 
 export const order_items = pgTable("order_items", {
   id: uuid("id").primaryKey(),
-  order_id: text("order_id").notNull(),
-  product_id: text("product_id").notNull(),
+  order_id: uuid("order_id").notNull(),
+  product_id: uuid("product_id").notNull(),
   quantity: integer("quantity").notNull(),
   unit_price: decimal("unit_price", {
     precision: 10,
