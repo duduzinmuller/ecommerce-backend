@@ -1,9 +1,6 @@
 import { z } from "zod";
 
 export const createOrderSchema = z.object({
-  user_id: z.string().min(1, "ID do usuário é obrigatório"),
-  status: z.enum(["pending", "completed", "cancelled"]).default("pending"),
-  total: z.number().min(0, "O total deve ser positivo"),
   delivery_street: z.string().min(1, "Rua é obrigatória"),
   delivery_number: z.string().min(1, "Número é obrigatório"),
   delivery_neighborhood: z.string().min(1, "Bairro é obrigatório"),

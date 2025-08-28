@@ -21,7 +21,9 @@ export class CreateOrderController {
       return created(createdOrder);
     } catch (error) {
       if (error instanceof ZodError) {
-        return badRequest(error.issues[0].message);
+        const errorMessage =
+          error.issues.length > 0 ? error.issues[0].message : "Dados inválidos";
+        return badRequest(errorMessage);
       }
       if (error instanceof UserNotFoundError) {
         return notFound(error.message);
