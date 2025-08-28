@@ -1,4 +1,4 @@
-import { GetOrderByUserIdRepository } from "src/repositories/orders/get-order-by-user-id";
+import { GetOrderByUserIdRepository } from "../../repositories/orders/get-order-by-user-id";
 
 export class GetOrderByUserIdUseCase {
   constructor(private getOrderByUserIdRepository: GetOrderByUserIdRepository) {

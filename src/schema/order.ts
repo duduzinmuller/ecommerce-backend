@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { isValidBrazilianDocument } from "@utils/document";
+import { isValidBrazilianDocument } from "../utils/document";
 
 export const createOrderSchema = z.object({
   delivery_street: z.string().min(1, "Rua é obrigatória"),

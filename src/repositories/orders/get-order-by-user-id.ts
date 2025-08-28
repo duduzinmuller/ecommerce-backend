@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
-import { db } from "src/db";
-import { order_items, orders } from "src/db/schema";
+import { db } from "../../db";
+import { order_items, orders } from "../../db/schema";
 
 export class GetOrderByUserIdRepository {
   async execute(userId: string) {
