@@ -8,6 +8,7 @@
     "start:dev": "pnpm run dev",
     "dev": "tsx watch ./src/index.ts",
     "prepare": "husky",
+    "build": "tsc",
     "commit": "npx cz"
   },
   "config": {
