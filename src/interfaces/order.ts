@@ -14,16 +14,17 @@ export interface Order {
   document: string;
 }
 
-export interface CreateOrderParams {
-  user_id: string;
-  delivery_street: string;
-  delivery_number: string;
-  delivery_neighborhood: string;
+export interface OrderParams {
+  status?: OrderStatus;
+  total?: string;
+  delivery_street?: string;
+  delivery_number?: string;
+  delivery_neighborhood?: string;
   delivery_complement?: string;
-  delivery_city: string;
-  delivery_state: string;
-  delivery_zip_code: string;
-  document: string;
+  delivery_city?: string;
+  delivery_state?: string;
+  delivery_zip_code?: string;
+  document?: string;
 }
 
 export type OrderStatus = "pending" | "completed" | "failed" | "canceled";
