@@ -15,6 +15,7 @@ export interface Order {
 }
 
 export interface OrderParams {
+  user_id?: string;
   status?: OrderStatus;
   total?: string;
   delivery_street?: string;
