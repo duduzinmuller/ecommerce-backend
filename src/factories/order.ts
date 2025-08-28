@@ -6,6 +6,9 @@ import { CreateOrderRepository } from "../repositories/orders/create-order";
 import { CreateOrderItemsRepository } from "../repositories/orders/create-order-items";
 import { GetUserByIdRepository } from "../repositories/users/get-user-by-id";
 import { CreateOrderUseCase } from "../use-cases/orders/create-order";
+import { GetOrderByUserIdRepository } from "../repositories/orders/get-order-by-user-id";
+import { GetOrderByUserIdUseCase } from "../use-cases/orders/get-order-by-user-id";
+import { GetOrderByUserIdController } from "../controllers/orders/get-order-by-user-id";
 
 export const MakeCreateOrderController = () => {
   const getUserByIdRepository = new GetUserByIdRepository();
@@ -26,4 +29,15 @@ export const MakeCreateOrderController = () => {
   );
   const createOrderController = new CreateOrderController(createOrderUseCase);
   return createOrderController;
+};
+
+export const MakeGetOrderByUserIdController = () => {
+  const getOrderByUserIdRepository = new GetOrderByUserIdRepository();
+  const getOrderByUserIdUseCase = new GetOrderByUserIdUseCase(
+    getOrderByUserIdRepository,
+  );
+  const getOrderByUserIdController = new GetOrderByUserIdController(
+    getOrderByUserIdUseCase,
+  );
+  return getOrderByUserIdController;
 };
