@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { isValidBrazilianDocument } from "@utils/document";
 
 export const createOrderSchema = z.object({
   delivery_street: z.string().min(1, "Rua é obrigatória"),
@@ -11,5 +12,8 @@ export const createOrderSchema = z.object({
   document: z
     .string()
     .min(11, "Documento inválido")
-    .max(18, "Documento inválido"),
+    .max(18, "Documento inválido")
+    .refine((value) => isValidBrazilianDocument(value), {
+      message: "Documento inválido",
+    }),
 });
