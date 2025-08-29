@@ -27,7 +27,7 @@ const mockGetCartByUserIdRepository = {
 
 const mockCreateOrderItemsRepository = {
   execute: jest.fn(),
-} as jest.Mocked<CreateOrderItemsRepository>;
+} as unknown as jest.Mocked<CreateOrderItemsRepository>;
 
 const mockClearCartRepository = {
   execute: jest.fn(),
