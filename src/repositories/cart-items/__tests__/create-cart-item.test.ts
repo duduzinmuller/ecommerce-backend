@@ -1,4 +1,3 @@
-import { describe, it, expect, beforeEach, jest } from "@jest/globals";
 import { CreateCartItemRepository } from "../create-cart-item";
 import { faker } from "@faker-js/faker";
 
@@ -19,7 +18,7 @@ describe("CreateCartItemRepository", () => {
   let createCartItemRepository: CreateCartItemRepository;
 
   beforeEach(() => {
-    createCartItemRepository = new CreateCartItemRepository(mockDb as any);
+    createCartItemRepository = new CreateCartItemRepository();
     jest.clearAllMocks();
   });
 
@@ -31,12 +30,7 @@ describe("CreateCartItemRepository", () => {
 
     mockDb.insert.mockReturnValue(mockInsert);
 
-    const result = await createCartItemRepository.execute({
-      id: mockCartItem.id,
-      cart_id: mockCartItem.cart_id,
-      product_id: mockCartItem.product_id,
-      quantity: mockCartItem.quantity,
-    });
+    const result = await createCartItemRepository.execute(mockCartItem);
 
     expect(mockDb.insert).toHaveBeenCalled();
     expect(mockInsert.values).toHaveBeenCalledWith({

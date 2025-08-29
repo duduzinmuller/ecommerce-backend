@@ -1,4 +1,3 @@
-import { describe, it, expect, beforeEach, jest } from "@jest/globals";
 import { CreateOrderRepository } from "../create-order";
 import { faker } from "@faker-js/faker";
 
@@ -9,17 +8,25 @@ const mockDb = {
 const mockOrder = {
   id: faker.string.uuid(),
   user_id: faker.string.uuid(),
-  total: faker.number.float({ min: 10, max: 1000, precision: 0.01 }),
-  status: "pending",
-  createdAt: faker.date.past(),
-  updatedAt: faker.date.recent(),
+  order_date: new Date(),
+  status: "pending" as const,
+  total: faker.number
+    .float({ min: 10, max: 1000, fractionDigits: 2 })
+    .toString(),
+  delivery_street: faker.location.street(),
+  delivery_number: faker.location.buildingNumber(),
+  delivery_neighborhood: faker.location.county(),
+  delivery_city: faker.location.city(),
+  delivery_state: faker.location.state(),
+  delivery_zip_code: faker.location.zipCode(),
+  document: faker.string.numeric(11),
 };
 
 describe("CreateOrderRepository", () => {
   let createOrderRepository: CreateOrderRepository;
 
   beforeEach(() => {
-    createOrderRepository = new CreateOrderRepository(mockDb as any);
+    createOrderRepository = new CreateOrderRepository();
     jest.clearAllMocks();
   });
 
@@ -31,12 +38,7 @@ describe("CreateOrderRepository", () => {
 
     mockDb.insert.mockReturnValue(mockInsert);
 
-    const result = await createOrderRepository.execute({
-      id: mockOrder.id,
-      user_id: mockOrder.user_id,
-      total: mockOrder.total,
-      status: mockOrder.status,
-    });
+    const result = await createOrderRepository.execute(mockOrder);
 
     expect(mockDb.insert).toHaveBeenCalled();
     expect(mockInsert.values).toHaveBeenCalledWith({
