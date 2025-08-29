@@ -7,15 +7,15 @@ import { GetUserByIdRepository } from "../../../repositories/users/get-user-by-i
 
 const mockIdGeneratorAdapter = {
   execute: jest.fn(),
-} as jest.Mocked<IdGeneratorAdapter>;
+} as any;
 
 const mockGetUserByIdRepository = {
   execute: jest.fn(),
-} as jest.Mocked<GetUserByIdRepository>;
+} as any;
 
 const mockCreateCartRepository = {
   execute: jest.fn(),
-} as jest.Mocked<CreateCartRepository>;
+} as any;
 
 const createCartUseCase = new CreateCartUseCase(
   mockIdGeneratorAdapter,

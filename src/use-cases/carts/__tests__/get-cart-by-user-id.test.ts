@@ -25,7 +25,7 @@ describe("GetCartByUserIdUseCase", () => {
 
     const userId = mockCart.user_id;
 
-    mockGetCartByUserIdRepository.execute.mockResolvedValue(mockCart);
+    mockGetCartByUserIdRepository.execute.mockResolvedValue(mockCart as any);
 
     const result = await getCartByUserIdUseCase.execute(userId);
 
