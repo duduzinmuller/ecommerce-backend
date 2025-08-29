@@ -3,6 +3,7 @@ import { auth } from "../middleware/auth";
 import {
   MakeCreateOrderController,
   MakeGetOrderByUserIdController,
+  MakeUpdateOrderController,
 } from "../factories/order";
 
 export const orderRouter = Router();
@@ -34,3 +35,23 @@ orderRouter.get("/me", auth, async (request: Request, response: Response) => {
 
   response.status(statusCode).send(body);
 });
+
+orderRouter.patch(
+  "/:orderId",
+  auth,
+  async (request: Request, response: Response) => {
+    const updateOrder = MakeUpdateOrderController();
+    const userId = request.userId;
+    const orderId = request.params.orderId;
+
+    const { statusCode, body } = await updateOrder.execute({
+      params: { orderId },
+      body: {
+        ...request.body,
+        user_id: userId,
+      },
+    });
+
+    response.status(statusCode).send(body);
+  },
+);

@@ -9,6 +9,9 @@ import { CreateOrderUseCase } from "../use-cases/orders/create-order";
 import { GetOrderByUserIdRepository } from "../repositories/orders/get-order-by-user-id";
 import { GetOrderByUserIdUseCase } from "../use-cases/orders/get-order-by-user-id";
 import { GetOrderByUserIdController } from "../controllers/orders/get-order-by-user-id";
+import { UpdateOrderRepository } from "../repositories/orders/update-order";
+import { UpdateOrderUseCase } from "../use-cases/orders/update-order";
+import { UpdateOrderController } from "../controllers/orders/update-order";
 
 export const MakeCreateOrderController = () => {
   const getUserByIdRepository = new GetUserByIdRepository();
@@ -40,4 +43,11 @@ export const MakeGetOrderByUserIdController = () => {
     getOrderByUserIdUseCase,
   );
   return getOrderByUserIdController;
+};
+
+export const MakeUpdateOrderController = () => {
+  const updateOrderRepository = new UpdateOrderRepository();
+  const updateOrderUseCase = new UpdateOrderUseCase(updateOrderRepository);
+  const updateOrderController = new UpdateOrderController(updateOrderUseCase);
+  return updateOrderController;
 };

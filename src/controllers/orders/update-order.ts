@@ -21,14 +21,14 @@ export class UpdateOrderController {
         return badRequest("ID do usuário não fornecido");
       }
 
-      const params = httpRequest.body;
+      const { user_id: _ignored, ...safeParams } = httpRequest.body ?? {};
 
-      await updateOrderSchema.parse(params);
+      await updateOrderSchema.parse(safeParams);
 
       const updatedOrder = await this.updateOrderUseCase.execute(
         userId,
         orderId,
-        params,
+        safeParams,
       );
 
       return ok(updatedOrder);
