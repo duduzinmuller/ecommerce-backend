@@ -39,7 +39,9 @@ describe("GetCategoryByIdUseCase", () => {
   it("should return null when category does not exist", async () => {
     const categoryId = faker.string.uuid();
 
-    mockGetCategoryByIdRepository.execute.mockResolvedValue(null);
+    mockGetCategoryByIdRepository.execute.mockRejectedValue(
+      new Error("Category not found"),
+    );
 
     const result = await getCategoryByIdUseCase.execute(categoryId);
 

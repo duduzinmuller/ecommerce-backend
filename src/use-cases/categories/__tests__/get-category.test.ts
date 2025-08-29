@@ -31,7 +31,7 @@ describe("GetCategoryUseCase", () => {
       },
     ];
 
-    mockGetCategoryRepository.execute.mockResolvedValue(mockCategories);
+    mockGetCategoryRepository.execute.mockResolvedValue(mockCategories as any);
 
     const result = await getCategoryUseCase.execute();
 

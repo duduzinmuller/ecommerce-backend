@@ -7,15 +7,15 @@ import { SlugAlreadyInCreateError } from "../../../error/category";
 
 const mockIdGeneratorAdapter = {
   execute: jest.fn(),
-} as jest.Mocked<IdGeneratorAdapter>;
+} as any;
 
 const mockCreateCategoryRepository = {
   execute: jest.fn(),
-} as jest.Mocked<CreateCategoryRepository>;
+} as any;
 
 const mockGetCategoryBySlugRepository = {
   execute: jest.fn(),
-} as jest.Mocked<GetCategoryBySlugRepository>;
+} as any;
 
 const createCategoryUseCase = new CreateCategoryUseCase(
   mockIdGeneratorAdapter,
@@ -72,7 +72,9 @@ describe("CreateCategoryUseCase", () => {
       updatedAt: new Date(),
     };
 
-    mockGetCategoryBySlugRepository.execute.mockResolvedValue(existingCategory);
+    mockGetCategoryBySlugRepository.execute.mockResolvedValue(
+      existingCategory as any,
+    );
 
     await expect(createCategoryUseCase.execute(mockCategory)).rejects.toThrow(
       SlugAlreadyInCreateError,

@@ -37,7 +37,9 @@ describe("DeleteCategoryUseCase", () => {
   it("should return null when category does not exist", async () => {
     const slug = faker.helpers.slugify(faker.commerce.department());
 
-    mockDeleteCategoryRepository.execute.mockResolvedValue(null);
+    mockDeleteCategoryRepository.execute.mockRejectedValue(
+      new Error("Category not found"),
+    );
 
     const result = await deleteCategoryUseCase.execute(slug);
 

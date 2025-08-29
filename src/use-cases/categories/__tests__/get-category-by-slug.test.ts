@@ -26,7 +26,9 @@ describe("GetCategoryBySlugUseCase", () => {
 
     const slug = mockCategory.slug;
 
-    mockGetCategoryBySlugRepository.execute.mockResolvedValue(mockCategory);
+    mockGetCategoryBySlugRepository.execute.mockResolvedValue(
+      mockCategory as any,
+    );
 
     const result = await getCategoryBySlugUseCase.execute(slug);
 
