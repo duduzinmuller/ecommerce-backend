@@ -25,7 +25,7 @@ describe("GetUserByIdUseCase", () => {
 
     const userId = mockUser.id;
 
-    mockGetUserByIdRepository.execute.mockResolvedValue(mockUser);
+    mockGetUserByIdRepository.execute.mockResolvedValue(mockUser as any);
 
     const result = await getUserByIdUseCase.execute(userId);
 
@@ -36,7 +36,7 @@ describe("GetUserByIdUseCase", () => {
   it("should return null when user does not exist", async () => {
     const userId = faker.string.uuid();
 
-    mockGetUserByIdRepository.execute.mockResolvedValue(null);
+    mockGetUserByIdRepository.execute.mockRejectedValue(null);
 
     const result = await getUserByIdUseCase.execute(userId);
 

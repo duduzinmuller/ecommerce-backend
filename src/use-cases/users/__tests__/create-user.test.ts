@@ -9,23 +9,23 @@ import { EmailAlreadyInUseError } from "../../../error/user";
 
 const mockCreateUserRepository = {
   execute: jest.fn(),
-} as jest.Mocked<CreateUserRepository>;
+} as any;
 
 const mockGetUserByEmailRepository = {
   execute: jest.fn(),
-} as jest.Mocked<GetUserByEmailRepository>;
+} as any;
 
 const mockIdGeneratorAdapter = {
   execute: jest.fn(),
-} as jest.Mocked<IdGeneratorAdapter>;
+} as any;
 
 const mockPasswordHasherAdapter = {
   execute: jest.fn(),
-} as jest.Mocked<PasswordHasherAdapter>;
+} as any;
 
 const mockTokensGeneratorAdapter = {
   execute: jest.fn(),
-} as jest.Mocked<TokensGeneratorAdapter>;
+} as any;
 
 const createUserUseCase = new CreateUserUseCase(
   mockCreateUserRepository,
@@ -54,7 +54,7 @@ describe("CreateUserUseCase", () => {
       refreshToken: "refresh_token",
     };
 
-    mockGetUserByEmailRepository.execute.mockResolvedValue(null);
+    mockGetUserByEmailRepository.execute.mockRejectedValue(null);
     mockIdGeneratorAdapter.execute.mockResolvedValue(mockUser.id);
     mockPasswordHasherAdapter.execute.mockResolvedValue(mockHashedPassword);
     mockCreateUserRepository.execute.mockResolvedValue({
@@ -65,7 +65,7 @@ describe("CreateUserUseCase", () => {
     });
     mockTokensGeneratorAdapter.execute.mockReturnValue(mockTokens);
 
-    const result = await createUserUseCase.execute(mockUser);
+    const result = await createUserUseCase.execute(mockUser as any);
 
     expect(mockGetUserByEmailRepository.execute).toHaveBeenCalledWith(
       mockUser.email,
@@ -105,7 +105,7 @@ describe("CreateUserUseCase", () => {
 
     mockGetUserByEmailRepository.execute.mockResolvedValue(existingUser);
 
-    await expect(createUserUseCase.execute(mockUser)).rejects.toThrow(
+    await expect(createUserUseCase.execute(mockUser as any)).rejects.toThrow(
       EmailAlreadyInUseError,
     );
 

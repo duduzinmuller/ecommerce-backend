@@ -45,7 +45,7 @@ describe("LoginUserUseCase", () => {
     const email = mockUser.email;
     const password = "plain_password";
 
-    mockGetUserByEmailRepository.execute.mockResolvedValue(mockUser);
+    mockGetUserByEmailRepository.execute.mockResolvedValue(mockUser as any);
     mockPasswordComparatorAdapter.execute.mockResolvedValue(true);
     mockTokensGeneratorAdapter.execute.mockReturnValue(mockTokens);
 
@@ -69,7 +69,7 @@ describe("LoginUserUseCase", () => {
     const email = faker.internet.email();
     const password = faker.internet.password();
 
-    mockGetUserByEmailRepository.execute.mockResolvedValue(null);
+    mockGetUserByEmailRepository.execute.mockRejectedValue(null);
 
     await expect(loginUserUseCase.execute(email, password)).rejects.toThrow(
       UserNotFoundError,
@@ -93,7 +93,7 @@ describe("LoginUserUseCase", () => {
     const email = mockUser.email;
     const password = "wrong_password";
 
-    mockGetUserByEmailRepository.execute.mockResolvedValue(mockUser);
+    mockGetUserByEmailRepository.execute.mockResolvedValue(mockUser as any);
     mockPasswordComparatorAdapter.execute.mockResolvedValue(false);
 
     await expect(loginUserUseCase.execute(email, password)).rejects.toThrow(

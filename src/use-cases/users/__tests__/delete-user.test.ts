@@ -25,7 +25,7 @@ describe("DeleteUserUseCase", () => {
 
     const userId = mockDeletedUser.id;
 
-    mockDeleteUserRepository.execute.mockResolvedValue(mockDeletedUser);
+    mockDeleteUserRepository.execute.mockResolvedValue(mockDeletedUser as any);
 
     const result = await deleteUserUseCase.execute(userId);
 
@@ -36,7 +36,7 @@ describe("DeleteUserUseCase", () => {
   it("should return null when user does not exist", async () => {
     const userId = faker.string.uuid();
 
-    mockDeleteUserRepository.execute.mockResolvedValue(null);
+    mockDeleteUserRepository.execute.mockRejectedValue(null);
 
     const result = await deleteUserUseCase.execute(userId);
 
