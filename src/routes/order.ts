@@ -4,6 +4,7 @@ import {
   MakeCreateOrderController,
   MakeGetOrderByUserIdController,
   MakeUpdateOrderController,
+  MakeDeleteOrderController,
 } from "../factories/order";
 
 export const orderRouter = Router();
@@ -22,6 +23,23 @@ orderRouter.post(
         user_id: userId,
       },
     });
+    response.status(statusCode).send(body);
+  },
+);
+
+orderRouter.delete(
+  "/:orderId",
+  auth,
+  async (request: Request, response: Response) => {
+    const deleteOrder = MakeDeleteOrderController();
+    const userId = request.userId;
+    const orderId = request.params.orderId;
+
+    const { statusCode, body } = await deleteOrder.execute({
+      params: { orderId },
+      body: { user_id: userId },
+    });
+
     response.status(statusCode).send(body);
   },
 );

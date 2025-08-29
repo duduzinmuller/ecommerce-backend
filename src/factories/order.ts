@@ -12,6 +12,9 @@ import { GetOrderByUserIdController } from "../controllers/orders/get-order-by-u
 import { UpdateOrderRepository } from "../repositories/orders/update-order";
 import { UpdateOrderUseCase } from "../use-cases/orders/update-order";
 import { UpdateOrderController } from "../controllers/orders/update-order";
+import { DeleteOrderRepository } from "../repositories/orders/delete-order";
+import { DeleteOrderUseCase } from "../use-cases/orders/delete-order";
+import { DeleteOrderController } from "../controllers/orders/delete-order";
 
 export const MakeCreateOrderController = () => {
   const getUserByIdRepository = new GetUserByIdRepository();
@@ -50,4 +53,11 @@ export const MakeUpdateOrderController = () => {
   const updateOrderUseCase = new UpdateOrderUseCase(updateOrderRepository);
   const updateOrderController = new UpdateOrderController(updateOrderUseCase);
   return updateOrderController;
+};
+
+export const MakeDeleteOrderController = () => {
+  const deleteOrderRepository = new DeleteOrderRepository();
+  const deleteOrderUseCase = new DeleteOrderUseCase(deleteOrderRepository);
+  const deleteOrderController = new DeleteOrderController(deleteOrderUseCase);
+  return deleteOrderController;
 };
