@@ -35,7 +35,7 @@ describe("GetCartItemsUseCase", () => {
 
     const cartId = faker.string.uuid();
 
-    mockGetCartItemsRepository.execute.mockResolvedValue(mockCartItems);
+    mockGetCartItemsRepository.execute.mockResolvedValue(mockCartItems as any);
 
     const result = await getCartItemsUseCase.execute(cartId);
 

@@ -28,7 +28,9 @@ describe("UpdateCartItemUseCase", () => {
     const itemId = mockUpdatedCartItem.id;
     const quantity = mockUpdatedCartItem.quantity;
 
-    mockUpdateCartItemRepository.execute.mockResolvedValue(mockUpdatedCartItem);
+    mockUpdateCartItemRepository.execute.mockResolvedValue(
+      mockUpdatedCartItem as any,
+    );
 
     const result = await updateCartItemUseCase.execute(itemId, quantity);
 

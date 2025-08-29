@@ -38,7 +38,9 @@ describe("RemoveCartItemUseCase", () => {
   it("should return null when cart item does not exist", async () => {
     const itemId = faker.string.uuid();
 
-    mockRemoveCartItemRepository.execute.mockResolvedValue(null);
+    mockRemoveCartItemRepository.execute.mockRejectedValue(
+      new Error("Cart Item not found"),
+    );
 
     const result = await removeCartItemUseCase.execute(itemId);
 

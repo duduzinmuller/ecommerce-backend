@@ -9,11 +9,11 @@ import {
 
 const mockCreateCartItemRepository = {
   execute: jest.fn(),
-} as jest.Mocked<CreateCartItemRepository>;
+} as any;
 
 const mockIdGeneratorAdapter = {
   execute: jest.fn(),
-} as jest.Mocked<IdGeneratorAdapter>;
+} as any;
 
 const createCartItemUseCase = new CreateCartItemUseCase(
   mockCreateCartItemRepository,
@@ -55,6 +55,7 @@ describe("CreateCartItemUseCase", () => {
   it("should throw IdCartAndProductId when cart_id is missing", async () => {
     const mockCartItem = {
       id: faker.string.uuid(),
+      cart_id: "",
       product_id: faker.string.uuid(),
       quantity: faker.number.int({ min: 1, max: 10 }),
     };
@@ -70,12 +71,13 @@ describe("CreateCartItemUseCase", () => {
     const mockCartItem = {
       id: faker.string.uuid(),
       cart_id: faker.string.uuid(),
+      product_id: "",
       quantity: faker.number.int({ min: 1, max: 10 }),
     };
 
-    await expect(createCartItemUseCase.execute(mockCartItem)).rejects.toThrow(
-      IdCartAndProductId,
-    );
+    await expect(
+      createCartItemUseCase.execute(mockCartItem as any),
+    ).rejects.toThrow(IdCartAndProductId);
 
     expect(mockCreateCartItemRepository.execute).not.toHaveBeenCalled();
   });
