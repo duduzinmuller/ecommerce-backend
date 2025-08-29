@@ -5,7 +5,7 @@ import { UserNotFoundError } from "../../../error/user";
 
 const mockDeleteUserUseCase = {
   execute: jest.fn(),
-} as jest.Mocked<DeleteUserUseCase>;
+} as unknown as jest.Mocked<DeleteUserUseCase>;
 
 const deleteUserController = new DeleteUserController(mockDeleteUserUseCase);
 
@@ -29,7 +29,7 @@ describe("DeleteUserController", () => {
       },
     };
 
-    mockDeleteUserUseCase.execute.mockResolvedValue(mockDeletedUser);
+    mockDeleteUserUseCase.execute.mockResolvedValue(mockDeletedUser as any);
 
     const result = await deleteUserController.execute(httpRequest);
 
@@ -48,7 +48,7 @@ describe("DeleteUserController", () => {
     const result = await deleteUserController.execute(httpRequest);
 
     expect(result.statusCode).toBe(400);
-    expect(result.body.message).toBe("O ID do usuário é obrigatório.");
+    expect(result.body).toBe("O ID do usuário é obrigatório.");
   });
 
   it("should return bad request when userId is invalid", async () => {
@@ -61,7 +61,7 @@ describe("DeleteUserController", () => {
     const result = await deleteUserController.execute(httpRequest);
 
     expect(result.statusCode).toBe(400);
-    expect(result.body.message).toBe("Este id e invalido");
+    expect(result.body).toBe("Este id e invalido");
   });
 
   it("should return user not found response", async () => {
@@ -78,7 +78,7 @@ describe("DeleteUserController", () => {
     const result = await deleteUserController.execute(httpRequest);
 
     expect(result.statusCode).toBe(404);
-    expect(result.body.message).toBe("Usuario não encontrado");
+    expect(result.body).toBe("Usuario não encontrado");
   });
 
   it("should return server error for unexpected error", async () => {

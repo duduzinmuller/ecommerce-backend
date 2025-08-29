@@ -5,7 +5,7 @@ import { InvalidPasswordError, UserNotFoundError } from "../../../error/user";
 
 const mockLoginUserUseCase = {
   execute: jest.fn(),
-} as jest.Mocked<LoginUserUseCase>;
+} as unknown as jest.Mocked<LoginUserUseCase>;
 
 const loginUserController = new LoginUserController(mockLoginUserUseCase);
 
@@ -29,7 +29,7 @@ describe("LoginUserController", () => {
       },
     };
 
-    mockLoginUserUseCase.execute.mockResolvedValue(mockUser);
+    mockLoginUserUseCase.execute.mockResolvedValue(mockUser as any);
 
     const result = await loginUserController.execute(httpRequest);
 
@@ -63,14 +63,12 @@ describe("LoginUserController", () => {
       },
     };
 
-    mockLoginUserUseCase.execute.mockRejectedValue(
-      new InvalidPasswordError("Senha incorreta"),
-    );
+    mockLoginUserUseCase.execute.mockRejectedValue(new InvalidPasswordError());
 
     const result = await loginUserController.execute(httpRequest);
 
     expect(result.statusCode).toBe(401);
-    expect(result.body.message).toBe("Senha incorreta");
+    expect(result.body).toBe("Senha incorreta");
   });
 
   it("should return user not found response", async () => {
@@ -88,7 +86,7 @@ describe("LoginUserController", () => {
     const result = await loginUserController.execute(httpRequest);
 
     expect(result.statusCode).toBe(404);
-    expect(result.body.message).toBe("Usuario não encontrado");
+    expect(result.body).toBe("Usuario não encontrado");
   });
 
   it("should return server error for unexpected error", async () => {

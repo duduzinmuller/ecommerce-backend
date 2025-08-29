@@ -6,7 +6,7 @@ import { ZodError } from "zod";
 
 const mockCreateUserUseCase = {
   execute: jest.fn(),
-} as jest.Mocked<CreateUserUseCase>;
+} as unknown as jest.Mocked<CreateUserUseCase>;
 
 const createUserController = new CreateUserController(mockCreateUserUseCase);
 
@@ -25,6 +25,14 @@ describe("CreateUserController", () => {
       updatedAt: new Date(),
     };
 
+    const mockResponse = {
+      ...mockUser,
+      tokens: {
+        accessToken: faker.string.alphanumeric(32),
+        refreshToken: faker.string.alphanumeric(32),
+      },
+    };
+
     const httpRequest = {
       body: {
         name: mockUser.name,
@@ -33,7 +41,7 @@ describe("CreateUserController", () => {
       },
     };
 
-    mockCreateUserUseCase.execute.mockResolvedValue(mockUser);
+    mockCreateUserUseCase.execute.mockResolvedValue(mockResponse as any);
 
     const result = await createUserController.execute(httpRequest);
 
@@ -41,7 +49,7 @@ describe("CreateUserController", () => {
       httpRequest.body,
     );
     expect(result.statusCode).toBe(201);
-    expect(result.body).toEqual(mockUser);
+    expect(result.body).toEqual(mockResponse);
   });
 
   it("should return bad request for validation error", async () => {
@@ -75,7 +83,7 @@ describe("CreateUserController", () => {
     const result = await createUserController.execute(httpRequest);
 
     expect(result.statusCode).toBe(400);
-    expect(result.body.message).toBe("Email já está em uso");
+    expect(result.body).toBe("Email já está em uso");
   });
 
   it("should return server error for unexpected error", async () => {

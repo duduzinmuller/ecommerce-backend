@@ -4,7 +4,7 @@ import { GetUserByIdUseCase } from "../../../use-cases/users/get-user-by-id";
 
 const mockGetUserByIdUseCase = {
   execute: jest.fn(),
-} as jest.Mocked<GetUserByIdUseCase>;
+} as unknown as jest.Mocked<GetUserByIdUseCase>;
 
 const getUserByIdController = new GetUserByIdController(mockGetUserByIdUseCase);
 
@@ -28,7 +28,7 @@ describe("GetUserByIdController", () => {
       },
     };
 
-    mockGetUserByIdUseCase.execute.mockResolvedValue(mockUser);
+    mockGetUserByIdUseCase.execute.mockResolvedValue(mockUser as any);
 
     const result = await getUserByIdController.execute(httpRequest);
 
@@ -45,7 +45,7 @@ describe("GetUserByIdController", () => {
     const result = await getUserByIdController.execute(httpRequest);
 
     expect(result.statusCode).toBe(400);
-    expect(result.body.message).toBe("O ID do usuário é obrigatório.");
+    expect(result.body).toBe("O ID do usuário é obrigatório.");
   });
 
   it("should return bad request when userId is invalid", async () => {
@@ -58,7 +58,7 @@ describe("GetUserByIdController", () => {
     const result = await getUserByIdController.execute(httpRequest);
 
     expect(result.statusCode).toBe(400);
-    expect(result.body.message).toBe("Este ID é inválido.");
+    expect(result.body).toBe("Este ID é inválido.");
   });
 
   it("should return not found when user does not exist", async () => {
@@ -68,12 +68,12 @@ describe("GetUserByIdController", () => {
       },
     };
 
-    mockGetUserByIdUseCase.execute.mockResolvedValue(null);
+    mockGetUserByIdUseCase.execute.mockResolvedValue([]);
 
     const result = await getUserByIdController.execute(httpRequest);
 
     expect(result.statusCode).toBe(404);
-    expect(result.body.message).toBe("Usuário não encontrado");
+    expect(result.body).toBe("Usuário não encontrado");
   });
 
   it("should return server error for unexpected error", async () => {
