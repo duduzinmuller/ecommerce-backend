@@ -27,11 +27,13 @@ describe("UpdateOrderUseCase", () => {
     const orderId = mockUpdatedOrder.id;
     const updateParams = {
       user_id: userId,
-      status: "completed",
+      status: "completed" as const,
       total: "35.50",
     };
 
-    mockUpdateOrderRepository.execute.mockResolvedValue(mockUpdatedOrder);
+    mockUpdateOrderRepository.execute.mockResolvedValue(
+      mockUpdatedOrder as any,
+    );
 
     const result = await updateOrderUseCase.execute(
       userId,
@@ -55,10 +57,12 @@ describe("UpdateOrderUseCase", () => {
     const orderId = faker.string.uuid();
     const updateParams = {
       user_id: userId,
-      status: "completed",
+      status: "completed" as const,
     };
 
-    mockUpdateOrderRepository.execute.mockResolvedValue(null);
+    mockUpdateOrderRepository.execute.mockRejectedValue(
+      new Error("Order not found"),
+    );
 
     const result = await updateOrderUseCase.execute(
       userId,

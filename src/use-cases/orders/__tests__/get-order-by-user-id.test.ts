@@ -27,7 +27,7 @@ describe("GetOrderByUserIdUseCase", () => {
 
     const userId = mockOrder.user_id;
 
-    mockGetOrderByUserIdRepository.execute.mockResolvedValue(mockOrder);
+    mockGetOrderByUserIdRepository.execute.mockResolvedValue(mockOrder as any);
 
     const result = await getOrderByUserIdUseCase.execute(userId);
 

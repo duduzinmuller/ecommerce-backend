@@ -11,27 +11,27 @@ import { GetUserByIdRepository } from "../../../repositories/users/get-user-by-i
 
 const mockGetUserByIdRepository = {
   execute: jest.fn(),
-} as jest.Mocked<GetUserByIdRepository>;
+} as any;
 
 const mockIdGeneratorAdapter = {
   execute: jest.fn(),
-} as jest.Mocked<IdGeneratorAdapter>;
+} as any;
 
 const mockCreateOrderRepository = {
   execute: jest.fn(),
-} as jest.Mocked<CreateOrderRepository>;
+} as any;
 
 const mockGetCartByUserIdRepository = {
   execute: jest.fn(),
-} as jest.Mocked<GetCartByUserIdRepository>;
+} as any;
 
 const mockCreateOrderItemsRepository = {
   execute: jest.fn(),
-} as unknown as jest.Mocked<CreateOrderItemsRepository>;
+} as any;
 
 const mockClearCartRepository = {
   execute: jest.fn(),
-} as jest.Mocked<ClearCartRepository>;
+} as any;
 
 const createOrderUseCase = new CreateOrderUseCase(
   mockGetUserByIdRepository,
@@ -97,7 +97,7 @@ describe("CreateOrderUseCase", () => {
     mockCreateOrderItemsRepository.execute.mockResolvedValue(undefined);
     mockClearCartRepository.execute.mockResolvedValue(undefined);
 
-    const result = await createOrderUseCase.execute(mockOrder);
+    const result = await createOrderUseCase.execute(mockOrder as any);
 
     expect(mockIdGeneratorAdapter.execute).toHaveBeenCalled();
     expect(mockGetUserByIdRepository.execute).toHaveBeenCalledWith(
@@ -143,7 +143,7 @@ describe("CreateOrderUseCase", () => {
     mockIdGeneratorAdapter.execute.mockResolvedValue(mockOrder.id);
     mockGetUserByIdRepository.execute.mockResolvedValue(null);
 
-    await expect(createOrderUseCase.execute(mockOrder)).rejects.toThrow(
+    await expect(createOrderUseCase.execute(mockOrder as any)).rejects.toThrow(
       UserNotFoundError,
     );
 
@@ -172,7 +172,7 @@ describe("CreateOrderUseCase", () => {
     mockGetUserByIdRepository.execute.mockResolvedValue(mockUser);
     mockGetCartByUserIdRepository.execute.mockResolvedValue(null);
 
-    await expect(createOrderUseCase.execute(mockOrder)).rejects.toThrow(
+    await expect(createOrderUseCase.execute(mockOrder as any)).rejects.toThrow(
       CartNotFoundError,
     );
 
@@ -208,7 +208,7 @@ describe("CreateOrderUseCase", () => {
     mockGetUserByIdRepository.execute.mockResolvedValue(mockUser);
     mockGetCartByUserIdRepository.execute.mockResolvedValue(mockCart);
 
-    await expect(createOrderUseCase.execute(mockOrder)).rejects.toThrow(
+    await expect(createOrderUseCase.execute(mockOrder as any)).rejects.toThrow(
       EmptyCartError,
     );
 

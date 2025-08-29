@@ -26,7 +26,9 @@ describe("DeleteOrderUseCase", () => {
     const orderId = mockDeletedOrder.id;
     const userId = mockDeletedOrder.user_id;
 
-    mockDeleteOrderRepository.execute.mockResolvedValue(mockDeletedOrder);
+    mockDeleteOrderRepository.execute.mockResolvedValue(
+      mockDeletedOrder as any,
+    );
 
     const result = await deleteOrderUseCase.execute(orderId, userId);
 
@@ -41,7 +43,9 @@ describe("DeleteOrderUseCase", () => {
     const orderId = faker.string.uuid();
     const userId = faker.string.uuid();
 
-    mockDeleteOrderRepository.execute.mockResolvedValue(null);
+    mockDeleteOrderRepository.execute.mockRejectedValue(
+      new Error("Order not found"),
+    );
 
     const result = await deleteOrderUseCase.execute(orderId, userId);
 
