@@ -1,4 +1,4 @@
-import { badRequest } from "./http.js";
+import { badRequest } from "./http";
 
 import validator from "validator";
 
