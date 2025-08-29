@@ -5,7 +5,7 @@ import { OrderNotFoundOrUnauthorizedError } from "../../../error/order";
 
 const mockDeleteOrderUseCase = {
   execute: jest.fn(),
-} as jest.Mocked<DeleteOrderUseCase>;
+} as unknown as jest.Mocked<DeleteOrderUseCase>;
 
 const deleteOrderController = new DeleteOrderController(mockDeleteOrderUseCase);
 
@@ -33,7 +33,7 @@ describe("DeleteOrderController", () => {
       },
     };
 
-    mockDeleteOrderUseCase.execute.mockResolvedValue(mockDeletedOrder);
+    mockDeleteOrderUseCase.execute.mockResolvedValue(mockDeletedOrder as any);
 
     const result = await deleteOrderController.execute(httpRequest);
 
@@ -56,7 +56,7 @@ describe("DeleteOrderController", () => {
     const result = await deleteOrderController.execute(httpRequest);
 
     expect(result.statusCode).toBe(400);
-    expect(result.body.message).toBe("O ID é obrigatório");
+    expect(result.body).toBe("O ID é obrigatório");
   });
 
   it("should return bad request when userId is missing", async () => {
@@ -70,7 +70,7 @@ describe("DeleteOrderController", () => {
     const result = await deleteOrderController.execute(httpRequest);
 
     expect(result.statusCode).toBe(400);
-    expect(result.body.message).toBe("ID do usuário não fornecido");
+    expect(result.body).toBe("ID do usuário não fornecido");
   });
 
   it("should return not found when order does not exist", async () => {
@@ -83,12 +83,14 @@ describe("DeleteOrderController", () => {
       },
     };
 
-    mockDeleteOrderUseCase.execute.mockResolvedValue(null);
+    mockDeleteOrderUseCase.execute.mockRejectedValue(
+      new Error("Order not found"),
+    );
 
     const result = await deleteOrderController.execute(httpRequest);
 
     expect(result.statusCode).toBe(404);
-    expect(result.body.message).toBe("Pedido não encontrado");
+    expect(result.body).toBe("Pedido não encontrado");
   });
 
   it("should return bad request for order not found or unauthorized", async () => {
@@ -102,15 +104,13 @@ describe("DeleteOrderController", () => {
     };
 
     mockDeleteOrderUseCase.execute.mockRejectedValue(
-      new OrderNotFoundOrUnauthorizedError(
-        "Pedido não encontrado ou não autorizado",
-      ),
+      new OrderNotFoundOrUnauthorizedError(),
     );
 
     const result = await deleteOrderController.execute(httpRequest);
 
     expect(result.statusCode).toBe(400);
-    expect(result.body.message).toBe("Pedido não encontrado ou não autorizado");
+    expect(result.body).toBe("Pedido não encontrado ou não autorizado");
   });
 
   it("should return server error for unexpected error", async () => {

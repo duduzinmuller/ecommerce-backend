@@ -1,15 +1,12 @@
 import { faker } from "@faker-js/faker";
 import { CreateOrderController } from "../create-order";
 import { CreateOrderUseCase } from "../../../use-cases/orders/create-order";
-import {
-  UserNotFoundError,
-  CartNotFoundError,
-  EmptyCartError,
-} from "../../../error/user";
+import { UserNotFoundError } from "../../../error/user";
+import { CartNotFoundError, EmptyCartError } from "../../../error/cart-item";
 
 const mockCreateOrderUseCase = {
   execute: jest.fn(),
-} as jest.Mocked<CreateOrderUseCase>;
+} as unknown as jest.Mocked<CreateOrderUseCase>;
 
 const createOrderController = new CreateOrderController(mockCreateOrderUseCase);
 
@@ -36,7 +33,7 @@ describe("CreateOrderController", () => {
       },
     };
 
-    mockCreateOrderUseCase.execute.mockResolvedValue(mockOrder);
+    mockCreateOrderUseCase.execute.mockResolvedValue(mockOrder as any);
 
     const result = await createOrderController.execute(httpRequest);
 
@@ -78,7 +75,7 @@ describe("CreateOrderController", () => {
     const result = await createOrderController.execute(httpRequest);
 
     expect(result.statusCode).toBe(404);
-    expect(result.body.message).toBe("Usuário não encontrado");
+    expect(result.body).toBe("Usuário não encontrado");
   });
 
   it("should return bad request for cart not found", async () => {
@@ -90,14 +87,12 @@ describe("CreateOrderController", () => {
       },
     };
 
-    mockCreateOrderUseCase.execute.mockRejectedValue(
-      new CartNotFoundError("Carrinho não encontrado"),
-    );
+    mockCreateOrderUseCase.execute.mockRejectedValue(new CartNotFoundError());
 
     const result = await createOrderController.execute(httpRequest);
 
     expect(result.statusCode).toBe(400);
-    expect(result.body.message).toBe("Carrinho não encontrado");
+    expect(result.body).toBe("Carrinho não encontrado");
   });
 
   it("should return bad request for empty cart", async () => {
@@ -109,14 +104,12 @@ describe("CreateOrderController", () => {
       },
     };
 
-    mockCreateOrderUseCase.execute.mockRejectedValue(
-      new EmptyCartError("Carrinho está vazio"),
-    );
+    mockCreateOrderUseCase.execute.mockRejectedValue(new EmptyCartError());
 
     const result = await createOrderController.execute(httpRequest);
 
     expect(result.statusCode).toBe(400);
-    expect(result.body.message).toBe("Carrinho está vazio");
+    expect(result.body).toBe("Carrinho está vazio");
   });
 
   it("should return server error for unexpected error", async () => {

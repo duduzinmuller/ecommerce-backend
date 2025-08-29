@@ -5,7 +5,7 @@ import { OrderNotFoundOrUnauthorizedError } from "../../../error/order";
 
 const mockUpdateOrderUseCase = {
   execute: jest.fn(),
-} as jest.Mocked<UpdateOrderUseCase>;
+} as unknown as jest.Mocked<UpdateOrderUseCase>;
 
 const updateOrderController = new UpdateOrderController(mockUpdateOrderUseCase);
 
@@ -35,7 +35,7 @@ describe("UpdateOrderController", () => {
       },
     };
 
-    mockUpdateOrderUseCase.execute.mockResolvedValue(mockUpdatedOrder);
+    mockUpdateOrderUseCase.execute.mockResolvedValue(mockUpdatedOrder as any);
 
     const result = await updateOrderController.execute(httpRequest);
 
@@ -61,7 +61,7 @@ describe("UpdateOrderController", () => {
     const result = await updateOrderController.execute(httpRequest);
 
     expect(result.statusCode).toBe(400);
-    expect(result.body.message).toBe("O ID é obrigatório.");
+    expect(result.body).toBe("O ID é obrigatório.");
   });
 
   it("should return bad request when userId is missing", async () => {
@@ -78,7 +78,7 @@ describe("UpdateOrderController", () => {
     const result = await updateOrderController.execute(httpRequest);
 
     expect(result.statusCode).toBe(400);
-    expect(result.body.message).toBe("ID do usuário não fornecido");
+    expect(result.body).toBe("ID do usuário não fornecido");
   });
 
   it("should return bad request for validation error", async () => {
@@ -112,15 +112,13 @@ describe("UpdateOrderController", () => {
     };
 
     mockUpdateOrderUseCase.execute.mockRejectedValue(
-      new OrderNotFoundOrUnauthorizedError(
-        "Pedido não encontrado ou não autorizado",
-      ),
+      new OrderNotFoundOrUnauthorizedError(),
     );
 
     const result = await updateOrderController.execute(httpRequest);
 
     expect(result.statusCode).toBe(400);
-    expect(result.body.message).toBe("Pedido não encontrado ou não autorizado");
+    expect(result.body).toBe("Pedido não encontrado ou não autorizado");
   });
 
   it("should return server error for unexpected error", async () => {

@@ -4,7 +4,7 @@ import { GetOrderByUserIdUseCase } from "../../../use-cases/orders/get-order-by-
 
 const mockGetOrderByUserIdUseCase = {
   execute: jest.fn(),
-} as jest.Mocked<GetOrderByUserIdUseCase>;
+} as unknown as jest.Mocked<GetOrderByUserIdUseCase>;
 
 const getOrderByUserIdController = new GetOrderByUserIdController(
   mockGetOrderByUserIdUseCase,
@@ -31,7 +31,7 @@ describe("GetOrderByUserIdController", () => {
       },
     };
 
-    mockGetOrderByUserIdUseCase.execute.mockResolvedValue(mockOrder);
+    mockGetOrderByUserIdUseCase.execute.mockResolvedValue(mockOrder as any);
 
     const result = await getOrderByUserIdController.execute(httpRequest);
 
@@ -50,7 +50,7 @@ describe("GetOrderByUserIdController", () => {
     const result = await getOrderByUserIdController.execute(httpRequest);
 
     expect(result.statusCode).toBe(400);
-    expect(result.body.message).toBe("ID do usuário não fornecido");
+    expect(result.body).toBe("ID do usuário não fornecido");
   });
 
   it("should return not found when order does not exist", async () => {
@@ -65,7 +65,7 @@ describe("GetOrderByUserIdController", () => {
     const result = await getOrderByUserIdController.execute(httpRequest);
 
     expect(result.statusCode).toBe(404);
-    expect(result.body.message).toBe("Pedido não encontrado para este usuário");
+    expect(result.body).toBe("Pedido não encontrado para este usuário");
   });
 
   it("should return server error for unexpected error", async () => {
