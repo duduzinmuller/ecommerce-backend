@@ -4,7 +4,7 @@ import { GetCategoryByIdUseCase } from "../../../use-cases/categories/get-catego
 
 const mockGetCategoryByIdUseCase = {
   execute: jest.fn(),
-} as jest.Mocked<GetCategoryByIdUseCase>;
+} as unknown as jest.Mocked<GetCategoryByIdUseCase>;
 
 const getCategoryByIdController = new GetCategoryByIdController(
   mockGetCategoryByIdUseCase,
@@ -49,7 +49,7 @@ describe("GetCategoryByIdController", () => {
     const result = await getCategoryByIdController.execute(httpRequest);
 
     expect(result.statusCode).toBe(400);
-    expect(result.body.message).toBe("Este ID é invalído.");
+    expect(result.body).toBe("Este ID é invalído.");
   });
 
   it("should return not found when category does not exist", async () => {
@@ -59,12 +59,14 @@ describe("GetCategoryByIdController", () => {
       },
     };
 
-    mockGetCategoryByIdUseCase.execute.mockResolvedValue(null);
+    mockGetCategoryByIdUseCase.execute.mockRejectedValue(
+      new Error("Category not found"),
+    );
 
     const result = await getCategoryByIdController.execute(httpRequest);
 
     expect(result.statusCode).toBe(404);
-    expect(result.body.message).toBe("Categoria não encontrada.");
+    expect(result.body).toBe("Categoria não encontrada.");
   });
 
   it("should return server error for unexpected error", async () => {

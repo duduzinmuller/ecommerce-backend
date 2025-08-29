@@ -4,7 +4,7 @@ import { DeleteCategoryUseCase } from "../../../use-cases/categories/delete-cate
 
 const mockDeleteCategoryUseCase = {
   execute: jest.fn(),
-} as jest.Mocked<DeleteCategoryUseCase>;
+} as unknown as jest.Mocked<DeleteCategoryUseCase>;
 
 const deleteCategoryController = new DeleteCategoryController(
   mockDeleteCategoryUseCase,
@@ -49,7 +49,7 @@ describe("DeleteCategoryController", () => {
     const result = await deleteCategoryController.execute(httpRequest);
 
     expect(result.statusCode).toBe(400);
-    expect(result.body.message).toBe("Slug é obrigatório");
+    expect(result.body).toBe("Slug é obrigatório");
   });
 
   it("should return not found when category does not exist", async () => {
@@ -59,12 +59,14 @@ describe("DeleteCategoryController", () => {
       },
     };
 
-    mockDeleteCategoryUseCase.execute.mockResolvedValue(null);
+    mockDeleteCategoryUseCase.execute.mockRejectedValue(
+      new Error("Category not found"),
+    );
 
     const result = await deleteCategoryController.execute(httpRequest);
 
     expect(result.statusCode).toBe(404);
-    expect(result.body.message).toBe("Categoria não encontrada");
+    expect(result.body).toBe("Categoria não encontrada");
   });
 
   it("should return server error for unexpected error", async () => {

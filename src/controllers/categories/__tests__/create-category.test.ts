@@ -5,7 +5,7 @@ import { SlugAlreadyInCreateError } from "../../../error/category";
 
 const mockCreateCategoryUseCase = {
   execute: jest.fn(),
-} as jest.Mocked<CreateCategoryUseCase>;
+} as unknown as jest.Mocked<CreateCategoryUseCase>;
 
 const createCategoryController = new CreateCategoryController(
   mockCreateCategoryUseCase,
@@ -32,7 +32,7 @@ describe("CreateCategoryController", () => {
       },
     };
 
-    mockCreateCategoryUseCase.execute.mockResolvedValue(mockCategory);
+    mockCreateCategoryUseCase.execute.mockResolvedValue(mockCategory as any);
 
     const result = await createCategoryController.execute(httpRequest);
 
@@ -72,7 +72,7 @@ describe("CreateCategoryController", () => {
     const result = await createCategoryController.execute(httpRequest);
 
     expect(result.statusCode).toBe(400);
-    expect(result.body.message).toBe("Slug já está em uso");
+    expect(result.body).toBe("Slug já está em uso");
   });
 
   it("should return server error for unexpected error", async () => {

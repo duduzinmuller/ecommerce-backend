@@ -4,7 +4,7 @@ import { GetCategoryBySlugUseCase } from "../../../use-cases/categories/get-cate
 
 const mockGetCategoryBySlugUseCase = {
   execute: jest.fn(),
-} as jest.Mocked<GetCategoryBySlugUseCase>;
+} as unknown as jest.Mocked<GetCategoryBySlugUseCase>;
 
 const getCategoryBySlugController = new GetCategoryBySlugController(
   mockGetCategoryBySlugUseCase,
@@ -30,7 +30,7 @@ describe("GetCategoryBySlugController", () => {
       },
     };
 
-    mockGetCategoryBySlugUseCase.execute.mockResolvedValue(mockCategory);
+    mockGetCategoryBySlugUseCase.execute.mockResolvedValue(mockCategory as any);
 
     const result = await getCategoryBySlugController.execute(httpRequest);
 
@@ -49,7 +49,7 @@ describe("GetCategoryBySlugController", () => {
     const result = await getCategoryBySlugController.execute(httpRequest);
 
     expect(result.statusCode).toBe(400);
-    expect(result.body.message).toBe("Slug é obrigatório");
+    expect(result.body).toBe("Slug é obrigatório");
   });
 
   it("should return not found when category does not exist", async () => {
@@ -64,7 +64,7 @@ describe("GetCategoryBySlugController", () => {
     const result = await getCategoryBySlugController.execute(httpRequest);
 
     expect(result.statusCode).toBe(404);
-    expect(result.body.message).toBe("Categoria não encontrada");
+    expect(result.body).toBe("Categoria não encontrada");
   });
 
   it("should return server error for unexpected error", async () => {

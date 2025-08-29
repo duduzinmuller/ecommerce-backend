@@ -4,7 +4,7 @@ import { GetCategoryUseCase } from "../../../use-cases/categories/get-category";
 
 const mockGetCategoryUseCase = {
   execute: jest.fn(),
-} as jest.Mocked<GetCategoryUseCase>;
+} as unknown as jest.Mocked<GetCategoryUseCase>;
 
 const getCategoryController = new GetCategoryController(mockGetCategoryUseCase);
 
@@ -33,7 +33,7 @@ describe("GetCategoryController", () => {
 
     const httpRequest = {};
 
-    mockGetCategoryUseCase.execute.mockResolvedValue(mockCategories);
+    mockGetCategoryUseCase.execute.mockResolvedValue(mockCategories as any);
 
     const result = await getCategoryController.execute(httpRequest);
 
