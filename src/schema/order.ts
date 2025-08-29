@@ -17,3 +17,5 @@ export const createOrderSchema = z.object({
       message: "Documento inválido",
     }),
 });
+
+export const updateOrderSchema = createOrderSchema.partial().strict();

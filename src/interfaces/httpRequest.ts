@@ -7,6 +7,7 @@ export interface HttpRequest {
     categoryId?: string;
     cartId?: string;
     itemId?: string;
+    orderId?: string;
   };
   body?: any;
   user?: string;
