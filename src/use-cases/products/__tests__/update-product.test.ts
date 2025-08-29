@@ -36,7 +36,7 @@ describe("UpdateProductUseCase", () => {
     const updateParams = {
       name: faker.commerce.productName(),
       description: faker.commerce.productDescription(),
-      price: parseFloat(faker.commerce.price()),
+      price: parseFloat(faker.commerce.price()).toString(),
       category_id: faker.string.uuid(),
     };
 
@@ -48,7 +48,9 @@ describe("UpdateProductUseCase", () => {
       updatedAt: new Date(),
     };
 
-    mockUpdateProductRepository.execute.mockResolvedValue(mockUpdatedProduct);
+    mockUpdateProductRepository.execute.mockResolvedValue(
+      mockUpdatedProduct as any,
+    );
 
     const result = await updateProductUseCase.execute(slug, updateParams);
 
@@ -76,7 +78,9 @@ describe("UpdateProductUseCase", () => {
       updatedAt: new Date(),
     };
 
-    mockGetProductBySlugRepository.execute.mockResolvedValue(existingProduct);
+    mockGetProductBySlugRepository.execute.mockResolvedValue(
+      existingProduct as any,
+    );
 
     await expect(
       updateProductUseCase.execute(slug, updateParams),
@@ -110,8 +114,12 @@ describe("UpdateProductUseCase", () => {
       name: faker.commerce.productName(),
     };
 
-    mockGetProductBySlugRepository.execute.mockResolvedValue(existingProduct);
-    mockUpdateProductRepository.execute.mockResolvedValue(mockUpdatedProduct);
+    mockGetProductBySlugRepository.execute.mockResolvedValue(
+      existingProduct as any,
+    );
+    mockUpdateProductRepository.execute.mockResolvedValue(
+      mockUpdatedProduct as any,
+    );
 
     const result = await updateProductUseCase.execute(slug, updateParams);
 
@@ -131,7 +139,7 @@ describe("UpdateProductUseCase", () => {
       category_id: faker.string.uuid(),
     };
 
-    mockGetCategoryByIdRepository.execute.mockResolvedValue(null);
+    mockGetCategoryByIdRepository.execute.mockRejectedValue(null);
 
     await expect(
       updateProductUseCase.execute(slug, updateParams),
@@ -169,7 +177,9 @@ describe("UpdateProductUseCase", () => {
     };
 
     mockGetCategoryByIdRepository.execute.mockResolvedValue(mockCategory);
-    mockUpdateProductRepository.execute.mockResolvedValue(mockUpdatedProduct);
+    mockUpdateProductRepository.execute.mockResolvedValue(
+      mockUpdatedProduct as any,
+    );
 
     const result = await updateProductUseCase.execute(slug, updateParams);
 

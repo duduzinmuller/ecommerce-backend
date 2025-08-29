@@ -29,7 +29,9 @@ describe("GetProductBySlugUseCase", () => {
 
     const slug = mockProduct.slug;
 
-    mockGetProductBySlugRepository.execute.mockResolvedValue(mockProduct);
+    mockGetProductBySlugRepository.execute.mockResolvedValue(
+      mockProduct as any,
+    );
 
     const result = await getProductBySlugUseCase.execute(slug);
 
@@ -40,7 +42,7 @@ describe("GetProductBySlugUseCase", () => {
   it("should return null when product does not exist", async () => {
     const slug = faker.helpers.slugify(faker.commerce.productName());
 
-    mockGetProductBySlugRepository.execute.mockResolvedValue(null);
+    mockGetProductBySlugRepository.execute.mockRejectedValue(null);
 
     const result = await getProductBySlugUseCase.execute(slug);
 

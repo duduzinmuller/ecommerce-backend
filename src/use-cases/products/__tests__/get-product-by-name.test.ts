@@ -29,7 +29,9 @@ describe("GetProductByNameUseCase", () => {
 
     const productName = mockProduct.name;
 
-    mockGetProductByNameRepository.execute.mockResolvedValue(mockProduct);
+    mockGetProductByNameRepository.execute.mockResolvedValue(
+      mockProduct as any,
+    );
 
     const result = await getProductByNameUseCase.execute(productName);
 
@@ -42,7 +44,7 @@ describe("GetProductByNameUseCase", () => {
   it("should return null when product does not exist", async () => {
     const productName = faker.commerce.productName();
 
-    mockGetProductByNameRepository.execute.mockResolvedValue(null);
+    mockGetProductByNameRepository.execute.mockRejectedValue(null);
 
     const result = await getProductByNameUseCase.execute(productName);
 

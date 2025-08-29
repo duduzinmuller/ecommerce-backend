@@ -37,7 +37,7 @@ describe("GetProductUseCase", () => {
       },
     ];
 
-    mockGetProductRepository.execute.mockResolvedValue(mockProducts);
+    mockGetProductRepository.execute.mockResolvedValue(mockProducts as any);
 
     const result = await getProductUseCase.execute();
 

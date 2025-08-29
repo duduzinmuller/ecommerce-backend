@@ -11,19 +11,19 @@ import {
 
 const mockCreateProductRepository = {
   execute: jest.fn(),
-} as jest.Mocked<CreateProductRepository>;
+} as any;
 
 const mockGetProductBySlugRepository = {
   execute: jest.fn(),
-} as jest.Mocked<GetProductBySlugRepository>;
+} as any;
 
 const mockIdGeneratorAdapter = {
   execute: jest.fn(),
-} as jest.Mocked<IdGeneratorAdapter>;
+} as any;
 
 const mockGetCategoryByIdRepository = {
   execute: jest.fn(),
-} as jest.Mocked<GetCategoryByIdRepository>;
+} as any;
 
 const createProductUseCase = new CreateProductUseCase(
   mockCreateProductRepository,
@@ -42,9 +42,11 @@ describe("CreateProductUseCase", () => {
       id: faker.string.uuid(),
       name: faker.commerce.productName(),
       description: faker.commerce.productDescription(),
-      price: parseFloat(faker.commerce.price()),
+      price: parseFloat(faker.commerce.price()).toString(),
       slug: faker.helpers.slugify(faker.commerce.productName()),
       category_id: faker.string.uuid(),
+      stock: faker.number.int({ min: 0, max: 100 }),
+      image_url: faker.image.url(),
     };
 
     const mockCategory = {
@@ -107,9 +109,9 @@ describe("CreateProductUseCase", () => {
 
     mockGetProductBySlugRepository.execute.mockResolvedValue(existingProduct);
 
-    await expect(createProductUseCase.execute(mockProduct)).rejects.toThrow(
-      SlugAlreadyInCreateError,
-    );
+    await expect(
+      createProductUseCase.execute(mockProduct as any),
+    ).rejects.toThrow(SlugAlreadyInCreateError);
 
     expect(mockGetProductBySlugRepository.execute).toHaveBeenCalledWith(
       mockProduct.slug,
@@ -131,9 +133,9 @@ describe("CreateProductUseCase", () => {
     mockIdGeneratorAdapter.execute.mockResolvedValue(mockProduct.id);
     mockGetCategoryByIdRepository.execute.mockResolvedValue(null);
 
-    await expect(createProductUseCase.execute(mockProduct)).rejects.toThrow(
-      CategoryIsNotFound,
-    );
+    await expect(
+      createProductUseCase.execute(mockProduct as any),
+    ).rejects.toThrow(CategoryIsNotFound);
 
     expect(mockGetProductBySlugRepository.execute).toHaveBeenCalledWith(
       mockProduct.slug,

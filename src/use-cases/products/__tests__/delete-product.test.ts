@@ -29,7 +29,9 @@ describe("DeleteProductUseCase", () => {
 
     const slug = mockDeletedProduct.slug;
 
-    mockDeleteProductRepository.execute.mockResolvedValue(mockDeletedProduct);
+    mockDeleteProductRepository.execute.mockResolvedValue(
+      mockDeletedProduct as any,
+    );
 
     const result = await deleteProductUseCase.execute(slug);
 
@@ -40,7 +42,7 @@ describe("DeleteProductUseCase", () => {
   it("should return null when product does not exist", async () => {
     const slug = faker.helpers.slugify(faker.commerce.productName());
 
-    mockDeleteProductRepository.execute.mockResolvedValue(null);
+    mockDeleteProductRepository.execute.mockRejectedValue(null);
 
     const result = await deleteProductUseCase.execute(slug);
 
