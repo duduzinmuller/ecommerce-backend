@@ -5,7 +5,7 @@ import { UserNotFoundError } from "../../../error/user";
 
 const mockCreateCartUseCase = {
   execute: jest.fn(),
-} as jest.Mocked<CreateCartUseCase>;
+} as unknown as jest.Mocked<CreateCartUseCase>;
 
 const createCartController = new CreateCartController(mockCreateCartUseCase);
 
@@ -28,7 +28,7 @@ describe("CreateCartController", () => {
       },
     };
 
-    mockCreateCartUseCase.execute.mockResolvedValue(mockCart);
+    mockCreateCartUseCase.execute.mockResolvedValue(mockCart as any);
 
     const result = await createCartController.execute(httpRequest);
 
@@ -66,7 +66,7 @@ describe("CreateCartController", () => {
     const result = await createCartController.execute(httpRequest);
 
     expect(result.statusCode).toBe(404);
-    expect(result.body.message).toBe("Usuário não encontrado");
+    expect(result.body).toBe("Usuário não encontrado");
   });
 
   it("should return server error for unexpected error", async () => {

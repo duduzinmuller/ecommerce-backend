@@ -4,7 +4,7 @@ import { GetCartByUserIdUseCase } from "../../../use-cases/carts/get-cart-by-use
 
 const mockGetCartByUserIdUseCase = {
   execute: jest.fn(),
-} as jest.Mocked<GetCartByUserIdUseCase>;
+} as unknown as jest.Mocked<GetCartByUserIdUseCase>;
 
 const getCartByUserIdController = new GetCartByUserIdController(
   mockGetCartByUserIdUseCase,
@@ -29,7 +29,7 @@ describe("GetCartByUserIdController", () => {
       },
     };
 
-    mockGetCartByUserIdUseCase.execute.mockResolvedValue(mockCart);
+    mockGetCartByUserIdUseCase.execute.mockResolvedValue(mockCart as any);
 
     const result = await getCartByUserIdController.execute(httpRequest);
 
@@ -48,7 +48,7 @@ describe("GetCartByUserIdController", () => {
     const result = await getCartByUserIdController.execute(httpRequest);
 
     expect(result.statusCode).toBe(404);
-    expect(result.body.message).toBe("ID do usuário não fornecido");
+    expect(result.body).toBe("ID do usuário não fornecido");
   });
 
   it("should return not found when cart does not exist", async () => {
@@ -63,9 +63,7 @@ describe("GetCartByUserIdController", () => {
     const result = await getCartByUserIdController.execute(httpRequest);
 
     expect(result.statusCode).toBe(404);
-    expect(result.body.message).toBe(
-      "Carrinho não encontrado para este usuário",
-    );
+    expect(result.body).toBe("Carrinho não encontrado para este usuário");
   });
 
   it("should return server error for unexpected error", async () => {
