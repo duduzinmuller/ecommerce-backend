@@ -9,7 +9,7 @@ import { ZodError } from "zod";
 
 const mockCreateProductUseCase = {
   execute: jest.fn(),
-} as jest.Mocked<CreateProductUseCase>;
+} as unknown as jest.Mocked<CreateProductUseCase>;
 
 const createProductController = new CreateProductController(
   mockCreateProductUseCase,
@@ -42,7 +42,7 @@ describe("CreateProductController", () => {
       },
     };
 
-    mockCreateProductUseCase.execute.mockResolvedValue(mockProduct);
+    mockCreateProductUseCase.execute.mockResolvedValue(mockProduct as any);
 
     const result = await createProductController.execute(httpRequest);
 
@@ -82,13 +82,13 @@ describe("CreateProductController", () => {
     };
 
     mockCreateProductUseCase.execute.mockRejectedValue(
-      new CategoryIsNotFound("Categoria não encontrada"),
+      new CategoryIsNotFound(),
     );
 
     const result = await createProductController.execute(httpRequest);
 
     expect(result.statusCode).toBe(404);
-    expect(result.body.message).toBe("Categoria não encontrada");
+    expect(result.body).toBe("Categoria não encontrada");
   });
 
   it("should return bad request for slug already in use", async () => {
@@ -109,7 +109,7 @@ describe("CreateProductController", () => {
     const result = await createProductController.execute(httpRequest);
 
     expect(result.statusCode).toBe(400);
-    expect(result.body.message).toBe("Slug já está em uso");
+    expect(result.body).toBe("Slug já está em uso");
   });
 
   it("should return server error for unexpected error", async () => {

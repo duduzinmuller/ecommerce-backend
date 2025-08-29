@@ -4,7 +4,7 @@ import { DeleteProductUseCase } from "../../../use-cases/products/delete-product
 
 const mockDeleteProductUseCase = {
   execute: jest.fn(),
-} as jest.Mocked<DeleteProductUseCase>;
+} as unknown as jest.Mocked<DeleteProductUseCase>;
 
 const deleteProductController = new DeleteProductController(
   mockDeleteProductUseCase,
@@ -33,7 +33,9 @@ describe("DeleteProductController", () => {
       },
     };
 
-    mockDeleteProductUseCase.execute.mockResolvedValue(mockDeletedProduct);
+    mockDeleteProductUseCase.execute.mockResolvedValue(
+      mockDeletedProduct as any,
+    );
 
     const result = await deleteProductController.execute(httpRequest);
 
@@ -52,7 +54,7 @@ describe("DeleteProductController", () => {
     const result = await deleteProductController.execute(httpRequest);
 
     expect(result.statusCode).toBe(400);
-    expect(result.body.message).toBe("Slug é obrigatório");
+    expect(result.body).toBe("Slug é obrigatório");
   });
 
   it("should return not found when product does not exist", async () => {
@@ -62,12 +64,14 @@ describe("DeleteProductController", () => {
       },
     };
 
-    mockDeleteProductUseCase.execute.mockResolvedValue(null);
+    mockDeleteProductUseCase.execute.mockRejectedValue(
+      new Error("Product not found"),
+    );
 
     const result = await deleteProductController.execute(httpRequest);
 
     expect(result.statusCode).toBe(404);
-    expect(result.body.message).toBe("Produto não encontrado.");
+    expect(result.body).toBe("Produto não encontrado.");
   });
 
   it("should return server error for unexpected error", async () => {

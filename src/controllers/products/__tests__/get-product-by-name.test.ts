@@ -4,7 +4,7 @@ import { GetProductByNameUseCase } from "../../../use-cases/products/get-product
 
 const mockGetProductByNameUseCase = {
   execute: jest.fn(),
-} as jest.Mocked<GetProductByNameUseCase>;
+} as unknown as jest.Mocked<GetProductByNameUseCase>;
 
 const getProductByNameController = new GetProductByNameController(
   mockGetProductByNameUseCase,
@@ -33,7 +33,7 @@ describe("GetProductByNameController", () => {
       },
     };
 
-    mockGetProductByNameUseCase.execute.mockResolvedValue(mockProduct);
+    mockGetProductByNameUseCase.execute.mockResolvedValue(mockProduct as any);
 
     const result = await getProductByNameController.execute(httpRequest);
 
@@ -52,7 +52,7 @@ describe("GetProductByNameController", () => {
     const result = await getProductByNameController.execute(httpRequest);
 
     expect(result.statusCode).toBe(400);
-    expect(result.body.message).toBe("O nome do produto é obrigatório.");
+    expect(result.body).toBe("O nome do produto é obrigatório.");
   });
 
   it("should return not found when product does not exist", async () => {
@@ -62,12 +62,14 @@ describe("GetProductByNameController", () => {
       },
     };
 
-    mockGetProductByNameUseCase.execute.mockResolvedValue(null);
+    mockGetProductByNameUseCase.execute.mockRejectedValue(
+      new Error("Product not found"),
+    );
 
     const result = await getProductByNameController.execute(httpRequest);
 
     expect(result.statusCode).toBe(404);
-    expect(result.body.message).toBe("Produto não encontrado");
+    expect(result.body).toBe("Produto não encontrado");
   });
 
   it("should return server error for unexpected error", async () => {

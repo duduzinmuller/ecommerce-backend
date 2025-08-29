@@ -4,7 +4,7 @@ import { GetProductUseCase } from "../../../use-cases/products/get-product";
 
 const mockGetProductUseCase = {
   execute: jest.fn(),
-} as jest.Mocked<GetProductUseCase>;
+} as unknown as jest.Mocked<GetProductUseCase>;
 
 const getProductController = new GetProductController(mockGetProductUseCase);
 
@@ -39,7 +39,7 @@ describe("GetProductController", () => {
 
     const httpRequest = {};
 
-    mockGetProductUseCase.execute.mockResolvedValue(mockProducts);
+    mockGetProductUseCase.execute.mockResolvedValue(mockProducts as any);
 
     const result = await getProductController.execute(httpRequest);
 

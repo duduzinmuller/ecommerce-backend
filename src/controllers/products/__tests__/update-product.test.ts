@@ -8,7 +8,7 @@ import {
 
 const mockUpdateProductUseCase = {
   execute: jest.fn(),
-} as jest.Mocked<UpdateProductUseCase>;
+} as unknown as jest.Mocked<UpdateProductUseCase>;
 
 const updateProductController = new UpdateProductController(
   mockUpdateProductUseCase,
@@ -43,7 +43,9 @@ describe("UpdateProductController", () => {
       },
     };
 
-    mockUpdateProductUseCase.execute.mockResolvedValue(mockUpdatedProduct);
+    mockUpdateProductUseCase.execute.mockResolvedValue(
+      mockUpdatedProduct as any,
+    );
 
     const result = await updateProductController.execute(httpRequest);
 
@@ -69,7 +71,7 @@ describe("UpdateProductController", () => {
     const result = await updateProductController.execute(httpRequest);
 
     expect(result.statusCode).toBe(400);
-    expect(result.body.message).toBe("Slug é obrigatório");
+    expect(result.body).toBe("Slug é obrigatório");
   });
 
   it("should return bad request for validation error", async () => {
@@ -111,7 +113,7 @@ describe("UpdateProductController", () => {
     const result = await updateProductController.execute(httpRequest);
 
     expect(result.statusCode).toBe(400);
-    expect(result.body.message).toBe("Slug já está em uso");
+    expect(result.body).toBe("Slug já está em uso");
   });
 
   it("should return not found for category not found", async () => {
@@ -128,13 +130,13 @@ describe("UpdateProductController", () => {
     };
 
     mockUpdateProductUseCase.execute.mockRejectedValue(
-      new CategoryIsNotFound("Categoria não encontrada"),
+      new CategoryIsNotFound(),
     );
 
     const result = await updateProductController.execute(httpRequest);
 
     expect(result.statusCode).toBe(404);
-    expect(result.body.message).toBe("Categoria não encontrada");
+    expect(result.body).toBe("Categoria não encontrada");
   });
 
   it("should return server error for unexpected error", async () => {
