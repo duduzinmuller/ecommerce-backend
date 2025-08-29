@@ -4,7 +4,7 @@ import { UpdateCartItemUseCase } from "../../../use-cases/cart-items/update-cart
 
 const mockUpdateCartItemUseCase = {
   execute: jest.fn(),
-} as jest.Mocked<UpdateCartItemUseCase>;
+} as unknown as jest.Mocked<UpdateCartItemUseCase>;
 
 const updateCartItemController = new UpdateCartItemController(
   mockUpdateCartItemUseCase,
@@ -34,7 +34,9 @@ describe("UpdateCartItemController", () => {
       },
     };
 
-    mockUpdateCartItemUseCase.execute.mockResolvedValue(mockUpdatedCartItem);
+    mockUpdateCartItemUseCase.execute.mockResolvedValue(
+      mockUpdatedCartItem as any,
+    );
 
     const result = await updateCartItemController.execute(httpRequest);
 
@@ -57,7 +59,7 @@ describe("UpdateCartItemController", () => {
     const result = await updateCartItemController.execute(httpRequest);
 
     expect(result.statusCode).toBe(400);
-    expect(result.body.message).toBe("ID do item é obrigatório");
+    expect(result.body).toBe("ID do item é obrigatório");
   });
 
   it("should return bad request for validation error", async () => {
@@ -91,7 +93,7 @@ describe("UpdateCartItemController", () => {
     const result = await updateCartItemController.execute(httpRequest);
 
     expect(result.statusCode).toBe(404);
-    expect(result.body.message).toBe("Item do carrinho não encontrado");
+    expect(result.body).toBe("Item do carrinho não encontrado");
   });
 
   it("should return server error for unexpected error", async () => {

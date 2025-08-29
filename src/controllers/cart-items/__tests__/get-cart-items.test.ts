@@ -4,7 +4,7 @@ import { GetCartItemsUseCase } from "../../../use-cases/cart-items/get-cart-item
 
 const mockGetCartItemsUseCase = {
   execute: jest.fn(),
-} as jest.Mocked<GetCartItemsUseCase>;
+} as unknown as jest.Mocked<GetCartItemsUseCase>;
 
 const getCartItemsController = new GetCartItemsController(
   mockGetCartItemsUseCase,
@@ -41,7 +41,7 @@ describe("GetCartItemsController", () => {
       },
     };
 
-    mockGetCartItemsUseCase.execute.mockResolvedValue(mockCartItems);
+    mockGetCartItemsUseCase.execute.mockResolvedValue(mockCartItems as any);
 
     const result = await getCartItemsController.execute(httpRequest);
 
@@ -60,7 +60,7 @@ describe("GetCartItemsController", () => {
     const result = await getCartItemsController.execute(httpRequest);
 
     expect(result.statusCode).toBe(400);
-    expect(result.body.message).toBe("ID do carrinho é obrigatório");
+    expect(result.body).toBe("ID do carrinho é obrigatório");
   });
 
   it("should return empty array when no cart items exist", async () => {

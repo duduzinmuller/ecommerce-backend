@@ -8,7 +8,7 @@ import {
 
 const mockCreateCartItemUseCase = {
   execute: jest.fn(),
-} as jest.Mocked<CreateCartItemUseCase>;
+} as unknown as jest.Mocked<CreateCartItemUseCase>;
 
 const createCartItemController = new CreateCartItemController(
   mockCreateCartItemUseCase,
@@ -37,7 +37,7 @@ describe("CreateCartItemController", () => {
       },
     };
 
-    mockCreateCartItemUseCase.execute.mockResolvedValue(mockCartItem);
+    mockCreateCartItemUseCase.execute.mockResolvedValue(mockCartItem as any);
 
     const result = await createCartItemController.execute(httpRequest);
 
@@ -73,13 +73,13 @@ describe("CreateCartItemController", () => {
     };
 
     mockCreateCartItemUseCase.execute.mockRejectedValue(
-      new IdCartAndProductId("Carrinho ou produto não encontrado"),
+      new IdCartAndProductId(),
     );
 
     const result = await createCartItemController.execute(httpRequest);
 
     expect(result.statusCode).toBe(400);
-    expect(result.body.message).toBe("Carrinho ou produto não encontrado");
+    expect(result.body).toBe("Carrinho ou produto não encontrado");
   });
 
   it("should return bad request for quantity error", async () => {
@@ -92,13 +92,13 @@ describe("CreateCartItemController", () => {
     };
 
     mockCreateCartItemUseCase.execute.mockRejectedValue(
-      new QuantityProductError("Quantidade inválida"),
+      new QuantityProductError(),
     );
 
     const result = await createCartItemController.execute(httpRequest);
 
     expect(result.statusCode).toBe(400);
-    expect(result.body.message).toBe("Quantidade inválida");
+    expect(result.body).toBe("Quantidade inválida");
   });
 
   it("should return server error for unexpected error", async () => {

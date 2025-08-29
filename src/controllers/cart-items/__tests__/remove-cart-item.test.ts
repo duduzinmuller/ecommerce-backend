@@ -4,7 +4,7 @@ import { RemoveCartItemUseCase } from "../../../use-cases/cart-items/remove-cart
 
 const mockRemoveCartItemUseCase = {
   execute: jest.fn(),
-} as jest.Mocked<RemoveCartItemUseCase>;
+} as unknown as jest.Mocked<RemoveCartItemUseCase>;
 
 const removeCartItemController = new RemoveCartItemController(
   mockRemoveCartItemUseCase,
@@ -31,7 +31,9 @@ describe("RemoveCartItemController", () => {
       },
     };
 
-    mockRemoveCartItemUseCase.execute.mockResolvedValue(mockRemovedCartItem);
+    mockRemoveCartItemUseCase.execute.mockResolvedValue(
+      mockRemovedCartItem as any,
+    );
 
     const result = await removeCartItemController.execute(httpRequest);
 
@@ -50,7 +52,7 @@ describe("RemoveCartItemController", () => {
     const result = await removeCartItemController.execute(httpRequest);
 
     expect(result.statusCode).toBe(400);
-    expect(result.body.message).toBe("ID do item é obrigatório");
+    expect(result.body).toBe("ID do item é obrigatório");
   });
 
   it("should return not found when cart item does not exist", async () => {
@@ -60,12 +62,14 @@ describe("RemoveCartItemController", () => {
       },
     };
 
-    mockRemoveCartItemUseCase.execute.mockResolvedValue(null);
+    mockRemoveCartItemUseCase.execute.mockRejectedValue(
+      new Error("Cart item not found"),
+    );
 
     const result = await removeCartItemController.execute(httpRequest);
 
     expect(result.statusCode).toBe(404);
-    expect(result.body.message).toBe("Cart Item não encontrado");
+    expect(result.body).toBe("Cart Item não encontrado");
   });
 
   it("should return server error for unexpected error", async () => {
