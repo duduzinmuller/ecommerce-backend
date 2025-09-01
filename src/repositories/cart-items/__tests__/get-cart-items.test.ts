@@ -28,7 +28,7 @@ describe("GetCartItemsRepository", () => {
   let getCartItemsRepository: GetCartItemsRepository;
 
   beforeEach(() => {
-    getCartItemsRepository = new GetCartItemsRepository(mockDb as any);
+    getCartItemsRepository = new GetCartItemsRepository();
     jest.clearAllMocks();
   });
 

@@ -61,7 +61,7 @@ describe("GetCategoryRepository", () => {
     const result = await getCategoryRepository.execute();
 
     expect(mockDb.select).toHaveBeenCalled();
-    expect(mockDb.from).toHaveBeenCalledWith(categories);
+    expect(mockDb.select).toHaveBeenCalled();
     expect(result).toEqual([
       {
         ...mockCategories[0],

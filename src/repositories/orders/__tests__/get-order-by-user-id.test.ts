@@ -10,16 +10,20 @@ const mockOrders = [
   {
     id: faker.string.uuid(),
     user_id: faker.string.uuid(),
-    total: faker.number.float({ min: 10, max: 1000, precision: 0.01 }),
-    status: "pending",
+    total: faker.number
+      .float({ min: 10, max: 1000, fractionDigits: 2 })
+      .toString(),
+    status: "pending" as const,
     createdAt: faker.date.past(),
     updatedAt: faker.date.recent(),
   },
   {
     id: faker.string.uuid(),
     user_id: faker.string.uuid(),
-    total: faker.number.float({ min: 10, max: 1000, precision: 0.01 }),
-    status: "completed",
+    total: faker.number
+      .float({ min: 10, max: 1000, fractionDigits: 2 })
+      .toString(),
+    status: "completed" as const,
     createdAt: faker.date.past(),
     updatedAt: faker.date.recent(),
   },
@@ -29,7 +33,7 @@ describe("GetOrderByUserIdRepository", () => {
   let getOrderByUserIdRepository: GetOrderByUserIdRepository;
 
   beforeEach(() => {
-    getOrderByUserIdRepository = new GetOrderByUserIdRepository(mockDb as any);
+    getOrderByUserIdRepository = new GetOrderByUserIdRepository();
     jest.clearAllMocks();
   });
 

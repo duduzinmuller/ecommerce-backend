@@ -20,7 +20,7 @@ describe("RemoveCartItemRepository", () => {
   let removeCartItemRepository: RemoveCartItemRepository;
 
   beforeEach(() => {
-    removeCartItemRepository = new RemoveCartItemRepository(mockDb as any);
+    removeCartItemRepository = new RemoveCartItemRepository();
     jest.clearAllMocks();
   });
 

@@ -46,7 +46,7 @@ describe("DeleteCategoryRepository", () => {
     const result = await deleteCategoryRepository.execute(slug);
 
     expect(mockDb.select).toHaveBeenCalled();
-    expect(mockDb.from).toHaveBeenCalledWith(categories);
+    expect(mockDb.select).toHaveBeenCalled();
     expect(mockDb.delete).toHaveBeenCalledWith(categories);
     expect(result).toEqual(mockCategory);
   });

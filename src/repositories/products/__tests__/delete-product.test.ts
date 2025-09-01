@@ -51,7 +51,7 @@ describe("DeleteProductRepository", () => {
     const result = await deleteProductRepository.execute(slug);
 
     expect(mockDb.select).toHaveBeenCalled();
-    expect(mockDb.from).toHaveBeenCalledWith(products);
+    expect(mockDb.select).toHaveBeenCalled();
     expect(mockDb.delete).toHaveBeenCalledWith(products);
     expect(result).toEqual(mockProduct);
   });

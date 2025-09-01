@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "tsx node_modules/jest/bin/jest --passWithNoTests --silent --runInBand --detectOpenHandles --forceExit",
-    "test:watch": "tsx node_modules/jest/bin/jest --watch",
-    "test:coverage": "tsx node_modules/jest/bin/jest --coverage",
+    "test": "jest --passWithNoTests --silent --runInBand --detectOpenHandles --forceExit",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
     "start:dev": "pnpm run dev",
     "dev": "tsx watch ./src/index.ts",
     "prepare": "husky",
@@ -38,6 +38,11 @@
     }
   },
   "devDependencies": {
+    "@babel/core": "^7.28.3",
+    "@babel/plugin-transform-runtime": "^7.28.3",
+    "@babel/preset-env": "^7.28.3",
+    "@babel/preset-typescript": "^7.27.1",
+    "@babel/runtime": "^7.28.3",
     "@commitlint/config-conventional": "^19.8.1",
     "@commitlint/cz-commitlint": "^19.8.1",
     "@eslint/json": "^0.13.1",
@@ -48,6 +53,7 @@
     "@types/jsonwebtoken": "^9.0.10",
     "@types/pg": "^8.15.5",
     "@types/validator": "^13.15.2",
+    "babel-jest": "^30.1.1",
     "drizzle-kit": "^0.31.4",
     "eslint": "^9.33.0",
     "lint-staged": "^16.1.5",

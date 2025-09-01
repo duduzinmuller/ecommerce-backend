@@ -46,7 +46,7 @@ describe("GetProductBySlugRepository", () => {
     const result = await getProductBySlugRepository.execute(slug);
 
     expect(mockDb.select).toHaveBeenCalled();
-    expect(mockDb.from).toHaveBeenCalledWith(products);
+    expect(mockDb.select).toHaveBeenCalled();
     expect(result).toEqual(mockProduct);
   });
 

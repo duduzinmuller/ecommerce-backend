@@ -10,7 +10,9 @@ const mockDb = {
 const mockOrder = {
   id: faker.string.uuid(),
   user_id: faker.string.uuid(),
-  total: faker.number.float({ min: 10, max: 1000, precision: 0.01 }),
+  total: faker.number
+    .float({ min: 10, max: 1000, fractionDigits: 2 })
+    .toString(),
   status: "pending",
   createdAt: faker.date.past(),
   updatedAt: faker.date.recent(),
@@ -20,7 +22,7 @@ describe("DeleteOrderRepository", () => {
   let deleteOrderRepository: DeleteOrderRepository;
 
   beforeEach(() => {
-    deleteOrderRepository = new DeleteOrderRepository(mockDb as any);
+    deleteOrderRepository = new DeleteOrderRepository();
     jest.clearAllMocks();
   });
 
