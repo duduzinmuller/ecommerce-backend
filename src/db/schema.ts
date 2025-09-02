@@ -87,6 +87,43 @@ export const order_items = pgTable("order_items", {
   }).notNull(),
 });
 
+export const payment_method = pgEnum("payment_method", [
+  "credit_card",
+  "pix",
+  "boleto",
+  "paypal",
+  "other",
+]);
+
+export const payment_status = pgEnum("payment_status", [
+  "pending",
+  "paid",
+  "failed",
+  "refunded",
+]);
+
+export const payments = pgTable("payments", {
+  id: uuid("id").primaryKey(),
+  order_id: uuid("order_id").notNull(),
+  user_id: uuid("user_id").notNull(),
+  method: payment_method("method").notNull(),
+  status: payment_status("status").notNull().default("pending"),
+  amount: decimal("amount", { precision: 10, scale: 2 }).notNull(),
+  paid_at: timestamp("paid_at"),
+  created_at: timestamp("created_at").notNull().defaultNow(),
+});
+
+export const paymentsRelations = relations(payments, ({ one }) => ({
+  order: one(orders, {
+    fields: [payments.order_id],
+    references: [orders.id],
+  }),
+  user: one(users, {
+    fields: [payments.user_id],
+    references: [users.id],
+  }),
+}));
+
 export const usersRelations = relations(users, ({ many }) => ({
   orders: many(orders),
   carts: many(carts),
