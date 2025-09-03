@@ -113,6 +113,19 @@ export const payments = pgTable("payments", {
   created_at: timestamp("created_at").notNull().defaultNow(),
 });
 
+export const send_status = pgEnum("send_status", ["pending", "sent", "failed"]);
+
+export const email_notifications = pgTable("email_notifications", {
+  id: uuid("id").primaryKey(),
+  recipient: varchar("recipient", { length: 255 }).notNull(),
+  subject: varchar("subject", { length: 255 }).notNull(),
+  content: text("content").notNull(),
+  sent_at: timestamp("sent_at"),
+  status: send_status("status").notNull().default("pending"),
+  created_at: timestamp("created_at").notNull().defaultNow(),
+  updated_at: timestamp("updated_at").notNull().defaultNow(),
+});
+
 export const paymentsRelations = relations(payments, ({ one }) => ({
   order: one(orders, {
     fields: [payments.order_id],
