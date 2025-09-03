@@ -9,4 +9,4 @@ export interface EmailNotification {
   updated_at: Date;
 }
 
-type SendStatus = "pending" | "sent" | "failed";
+export type SendStatus = "pending" | "sent" | "failed";
