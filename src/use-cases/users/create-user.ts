@@ -1,6 +1,7 @@
 import { User } from "../../interfaces/user";
 import { CreateUserRepository } from "../../repositories/users/create-user";
 import { GetUserByEmailRepository } from "../../repositories/users/get-user-by-email";
+import { CreateCustomerRepository } from "../../repositories/asaas/create-customer";
 import { EmailAlreadyInUseError } from "../../error/user";
 
 import { TokensGeneratorAdapter } from "../../adapters/token-generator";
@@ -11,12 +12,14 @@ export class CreateUserUseCase {
   constructor(
     private createUserRepository: CreateUserRepository,
     private getUserByEmailRepository: GetUserByEmailRepository,
+    private createCustomerRepository: CreateCustomerRepository,
     private idGeneratorAdapter: IdGeneratorAdapter,
     private passwordHasherAdapter: PasswordHasherAdapter,
     private tokensGeneratorAdapter: TokensGeneratorAdapter,
   ) {
     this.createUserRepository = createUserRepository;
     this.getUserByEmailRepository = getUserByEmailRepository;
+    this.createCustomerRepository = createCustomerRepository;
     this.idGeneratorAdapter = idGeneratorAdapter;
     this.passwordHasherAdapter = passwordHasherAdapter;
     this.tokensGeneratorAdapter = tokensGeneratorAdapter;
@@ -35,12 +38,32 @@ export class CreateUserUseCase {
       createUserParams.password,
     );
 
+    let asaasCustomerId: string | undefined;
+    try {
+      console.log("🔍 Criando customer no Asaas...");
+      const asaasCustomer = await this.createCustomerRepository.execute({
+        name: createUserParams.name,
+        email: createUserParams.email,
+        cpfCnpj: "05509867230",
+        phone: "69999137501",
+        mobilePhone: "69999137501",
+      });
+      console.log(
+        "📋 Resposta completa do Asaas:",
+        JSON.stringify(asaasCustomer, null, 2),
+      );
+      asaasCustomerId = asaasCustomer.id;
+    } catch (error) {
+      console.log("🔍 Erro detalhado:", error);
+    }
+
     const { id, ...restParams } = createUserParams;
 
     const user: User = {
       id: userId,
       ...restParams,
       password: hashedPassword,
+      asaas_customer_id: asaasCustomerId,
     };
 
     const createdUser = await this.createUserRepository.execute(user);

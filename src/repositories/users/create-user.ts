@@ -11,6 +11,7 @@ export class CreateUserRepository {
         name: createUserParams.name,
         email: createUserParams.email,
         password: createUserParams.password,
+        asaas_customer_id: createUserParams.asaas_customer_id,
         created_at: createUserParams.created_at,
         updated_at: createUserParams.updated_at,
       })

@@ -25,8 +25,6 @@ export class DeleteUserController {
 
       const deletedUser = await this.deleteUserUseCase.execute(userId);
 
-      console.log(deletedUser);
-
       return ok(deletedUser);
     } catch (error) {
       console.error(error);

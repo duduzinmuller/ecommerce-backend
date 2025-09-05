@@ -11,6 +11,7 @@ import { CreateUserRepository } from "../repositories/users/create-user";
 import { DeleteUserRepository } from "../repositories/users/delete-user";
 import { GetUserByEmailRepository } from "../repositories/users/get-user-by-email";
 import { GetUserByIdRepository } from "../repositories/users/get-user-by-id";
+import { CreateCustomerRepository } from "../repositories/asaas/create-customer";
 import { CreateUserUseCase } from "../use-cases/users/create-user";
 import { DeleteUserUseCase } from "../use-cases/users/delete-user";
 import { GetUserByIdUseCase } from "../use-cases/users/get-user-by-id";
@@ -19,12 +20,14 @@ import { LoginUserUseCase } from "../use-cases/users/login-user";
 export const MakeCreateUserController = () => {
   const createUserRepository = new CreateUserRepository();
   const getUserByEmailRepository = new GetUserByEmailRepository();
+  const createCustomerRepository = new CreateCustomerRepository();
   const idGeneratorAdapter = new IdGeneratorAdapter();
   const passwordHasherAdapter = new PasswordHasherAdapter();
   const tokensGeneratorAdapter = new TokensGeneratorAdapter();
   const createUserUseCase = new CreateUserUseCase(
     createUserRepository,
     getUserByEmailRepository,
+    createCustomerRepository,
     idGeneratorAdapter,
     passwordHasherAdapter,
     tokensGeneratorAdapter,
