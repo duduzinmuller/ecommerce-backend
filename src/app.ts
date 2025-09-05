@@ -5,6 +5,7 @@ import { productRouter } from "./routes/product";
 import { cartRouter } from "./routes/cart";
 import { cartItemRouter } from "./routes/cart-item";
 import { orderRouter } from "./routes/order";
+import { paymentRouter } from "./routes/payment";
 
 export const app = express();
 
@@ -16,3 +17,4 @@ app.use("/api/products", productRouter);
 app.use("/api/carts", cartRouter);
 app.use("/api/cart-items", cartItemRouter);
 app.use("/api/orders", orderRouter);
+app.use("/api/payments", paymentRouter);
