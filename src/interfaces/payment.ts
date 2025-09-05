@@ -5,12 +5,13 @@ export interface Payment {
   method: PaymentMethod;
   status: PaymentStatus;
   amount: string;
-  asaas_payment_id: string;
-  asaas_customer_id: string;
+
+  asaas_payment_id?: string;
+  asaas_customer_id?: string;
   qr_code_url?: string;
   invoice_url?: string;
   card_last_digits?: string;
-  due_date: Date;
+  due_date?: Date;
   installment_count?: number;
   installment_value?: string;
   billing_type?: string;
@@ -20,7 +21,8 @@ export interface Payment {
   pix_qr_code?: string;
   pix_key?: string;
   pix_expiration_date?: Date;
-  paid_at: Date;
+
+  paid_at?: Date;
   created_at: Date;
   updated_at: Date;
 }
