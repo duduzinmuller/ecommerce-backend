@@ -12,7 +12,7 @@ export class CreatePaymentRepository {
         user_id: createPaymentParams.user_id,
         method: createPaymentParams.method,
         status: createPaymentParams.status,
-        amount: createPaymentParams.amount,
+        value: createPaymentParams.value,
         paid_at: createPaymentParams.paid_at,
         asaas_payment_id: createPaymentParams.asaas_payment_id,
         asaas_customer_id: createPaymentParams.asaas_customer_id,

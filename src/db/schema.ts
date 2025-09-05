@@ -109,7 +109,7 @@ export const payments = pgTable("payments", {
   user_id: uuid("user_id").notNull(),
   method: payment_method("method").notNull(),
   status: payment_status("status").notNull().default("pending"),
-  amount: decimal("amount", { precision: 10, scale: 2 }).notNull(),
+  value: decimal("value", { precision: 10, scale: 2 }).notNull(),
   asaas_payment_id: varchar("asaas_payment_id", { length: 50 }),
   asaas_customer_id: varchar("asaas_customer_id", { length: 50 }),
   qr_code_url: text("qr_code_url"),

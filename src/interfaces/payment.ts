@@ -4,7 +4,7 @@ export interface Payment {
   user_id: string;
   method: PaymentMethod;
   status: PaymentStatus;
-  amount: string;
+  value: string;
 
   asaas_payment_id?: string;
   asaas_customer_id?: string;
