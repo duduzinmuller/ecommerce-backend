@@ -23,6 +23,9 @@ jobs:
           echo "JWT_ACCESS_TOKEN_SECRET=secret" >> .env
           echo "JWT_REFRESH_TOKEN_SECRET=secret2" >> .env
 
+      - name: Install pnpm
+        run: npm install -g pnpm
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile --include=dev
 
