@@ -5,12 +5,20 @@ import { productRouter } from "./routes/product";
 import { cartRouter } from "./routes/cart";
 import { cartItemRouter } from "./routes/cart-item";
 import { orderRouter } from "./routes/order";
+import { join } from "path";
 import { paymentRouter } from "./routes/payment";
+import swaggerUi from "swagger-ui-express";
+import fs from "fs";
 
 export const app = express();
 
 app.use(express.json());
 
+const swaggerDocument = JSON.parse(
+  fs.readFileSync(join(__dirname, "../docs/swagger.json"), "utf-8"),
+);
+
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use("/api/users", userRouter);
 app.use("/api/categories", categoryRouter);
 app.use("/api/products", productRouter);
