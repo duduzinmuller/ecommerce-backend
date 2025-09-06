@@ -3,7 +3,6 @@
   "info": {
     "title": "Ecommerce API",
     "description": "API for Ecommerce",
-    "author": "Eduardo M.",
     "version": "1.0.0"
   },
   "securityDefinitions": {
@@ -301,7 +300,13 @@
         "summary": "Search product by name",
         "tags": ["Product"],
         "parameters": [
-          { "name": "name", "in": "query", "required": true, "type": "string" }
+          {
+            "name": "productName",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Nome do produto para buscar"
+          }
         ],
         "responses": {
           "200": {
@@ -339,7 +344,7 @@
         "security": [{ "BearerAuth": [] }]
       }
     },
-    "/api/carts/user/{userId}": {
+    "/api/carts/me": {
       "get": {
         "summary": "Get cart by user ID",
         "tags": ["Cart"],
@@ -456,13 +461,10 @@
         "security": [{ "BearerAuth": [] }]
       }
     },
-    "/api/orders/user/{userId}": {
+    "/api/orders/me": {
       "get": {
         "summary": "Get orders by user ID",
         "tags": ["Order"],
-        "parameters": [
-          { "name": "userId", "in": "path", "required": true, "type": "string" }
-        ],
         "responses": {
           "200": {
             "description": "Orders found",
@@ -561,82 +563,196 @@
     "User": {
       "type": "object",
       "properties": {
-        "id": { "type": "string", "example": "uuid" },
+        "id": {
+          "type": "string",
+          "example": "54e45c67-aca3-4d37-ae9b-37693a7b5848"
+        },
         "name": { "type": "string", "example": "Eduardo" },
         "email": { "type": "string", "example": "eduardo@email.com" }
       }
     },
     "UserWithToken": {
-      "allOf": [
-        { "$ref": "#/definitions/User" },
-        {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "54e45c67-aca3-4d37-ae9b-37693a7b5848"
+        },
+        "name": { "type": "string", "example": "Eduardo" },
+        "email": { "type": "string", "example": "eduardo@email.com" },
+        "password": {
+          "type": "string",
+          "example": "$2b$10$e3lKBQfdHZbwkqHYQcGvy.106XANVZvhiin22K6j/2CUzjoqVu26u"
+        },
+        "asaas_customer_id": {
+          "type": "string",
+          "example": "cus_000007000110"
+        },
+        "created_at": {
+          "type": "string",
+          "example": "2025-09-06T03:30:15.841Z"
+        },
+        "updated_at": {
+          "type": "string",
+          "example": "2025-09-06T03:30:15.841Z"
+        },
+        "tokens": {
           "type": "object",
           "properties": {
-            "token": { "type": "string", "example": "jwt.token.here" }
+            "accessToken": {
+              "type": "string",
+              "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+            },
+            "refreshToken": {
+              "type": "string",
+              "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+            }
           }
         }
-      ]
+      }
     },
     "Category": {
       "type": "object",
       "properties": {
-        "id": { "type": "string", "example": "uuid" },
-        "name": { "type": "string", "example": "Eletrônicos" },
-        "slug": { "type": "string", "example": "eletronicos" }
+        "id": {
+          "type": "string",
+          "example": "9677869a-ea2a-4f54-b41c-fad2278799f9"
+        },
+        "name": { "type": "string", "example": "Notebooks" },
+        "slug": { "type": "string", "example": "notebooks" },
+        "products": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/Product" }
+        }
       }
     },
     "CreateCategoryParams": {
       "type": "object",
       "properties": {
-        "name": { "type": "string", "example": "Eletrônicos" }
+        "name": { "type": "string", "example": "Eletrônicos" },
+        "slug": { "type": "string", "example": "eletronicos" }
       }
     },
     "Product": {
       "type": "object",
       "properties": {
-        "id": { "type": "string", "example": "uuid" },
-        "name": { "type": "string", "example": "Notebook" },
-        "price": { "type": "number", "example": 3500 },
-        "categoryId": { "type": "string", "example": "uuid" },
-        "slug": { "type": "string", "example": "notebook" }
+        "id": {
+          "type": "string",
+          "example": "c3678e2b-6b4a-44e5-aaaa-96f810aa9bba"
+        },
+        "name": { "type": "string", "example": "Asus Vivobook 15" },
+        "slug": { "type": "string", "example": "asus-vivobook-15" },
+        "description": {
+          "type": "string",
+          "example": "Notebook Asus Vivobook 15, Intel Core i5-1334U, 16 GB RAM, SSD 512 GB."
+        },
+        "price": { "type": "string", "example": "529.99" },
+        "stock": { "type": "integer", "example": 10 },
+        "category_id": {
+          "type": "string",
+          "example": "9677869a-ea2a-4f54-b41c-fad2278799f9"
+        },
+        "image_url": {
+          "type": "string",
+          "example": "https://www.amazon.com/ASUS-Vivobook-i5-1334U-Champagne-F1504VA-AB56-PK/dp/B0DW1SK6P5"
+        },
+        "created_at": {
+          "type": "string",
+          "example": "2025-08-28T14:59:48.528Z"
+        },
+        "updated_at": {
+          "type": "string",
+          "example": "2025-08-28T14:59:48.528Z"
+        }
       }
     },
     "CreateProductParams": {
       "type": "object",
       "properties": {
         "name": { "type": "string", "example": "Notebook" },
-        "price": { "type": "number", "example": 3500 },
-        "categoryId": { "type": "string", "example": "uuid" }
+        "slug": { "type": "string", "example": "notebooks" },
+        "price": { "type": "string", "example": 3500.0 },
+        "stock": { "type": "number", "example": 21 },
+        "description": {
+          "type": "string",
+          "example": "Notebook de alto desempenho com processador Intel Core i7, 16GB de memória RAM, SSD de 512GB e tela Full HD de 15,6 polegadas. Ideal para trabalho, estudos e jogos."
+        },
+        "categoryId": {
+          "type": "string",
+          "example": "3dc75813-28c7-4540-b9df-b4f6cdd3af1d"
+        },
+        "image_url": {
+          "type": "string",
+          "example": "https://www.amazon.com/ASUS-Vivobook-i5-1334U-Champagne-F1504VA-AB56-PK/dp/B0DW1SK6P5"
+        }
       }
     },
     "UpdateProductParams": {
       "type": "object",
       "properties": {
         "name": { "type": "string", "example": "Notebook" },
-        "price": { "type": "number", "example": 3500 },
-        "categoryId": { "type": "string", "example": "uuid" }
+        "slug": { "type": "string", "example": "notebooks" }
       }
     },
     "Cart": {
       "type": "object",
       "properties": {
-        "id": { "type": "string", "example": "uuid" },
-        "userId": { "type": "string", "example": "uuid" }
+        "id": {
+          "type": "string",
+          "example": "d80a3875-8483-4875-9cc3-bde28b0e6e6d"
+        },
+        "user_id": {
+          "type": "string",
+          "example": "699d2dce-3d29-4a6e-af7c-754d58d7326d"
+        },
+        "created_at": {
+          "type": "string",
+          "example": "2025-09-05T20:09:29.590Z"
+        },
+        "updated_at": {
+          "type": "string",
+          "example": "2025-09-05T20:09:29.590Z"
+        },
+        "items": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/CartItem" }
+        }
       }
     },
     "CreateCartParams": {
-      "type": "object",
-      "properties": {
-        "userId": { "type": "string", "example": "uuid" }
-      }
+      "type": "object"
     },
     "CartItem": {
       "type": "object",
       "properties": {
-        "id": { "type": "string", "example": "uuid" },
-        "cartId": { "type": "string", "example": "uuid" },
-        "productId": { "type": "string", "example": "uuid" },
-        "quantity": { "type": "number", "example": 2 }
+        "id": {
+          "type": "string",
+          "example": "caf63b75-c4cd-4557-b015-606b532a9c39"
+        },
+        "cart_id": {
+          "type": "string",
+          "example": "5230d284-bc7f-44b9-8bb0-7c7baa08eaca"
+        },
+        "product_id": {
+          "type": "string",
+          "example": "9ca0c70c-0316-4b96-9c04-28899aef9150"
+        },
+        "quantity": { "type": "integer", "example": 25 },
+        "product": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "example": "9ca0c70c-0316-4b96-9c04-28899aef9150"
+            },
+            "name": { "type": "string", "example": "Fone Sony WH-1000XM5" },
+            "price": { "type": "string", "example": "299.99" },
+            "image_url": {
+              "type": "string",
+              "example": "https://m.media-amazon.com/images/I/61dIwI+g8NL._AC_SL1500_.jpg"
+            }
+          }
+        }
       }
     },
     "CreateCartItemParams": {
@@ -656,16 +772,48 @@
     "Order": {
       "type": "object",
       "properties": {
-        "id": { "type": "string", "example": "uuid" },
-        "userId": { "type": "string", "example": "uuid" },
-        "status": { "type": "string", "example": "pending" }
+        "id": {
+          "type": "string",
+          "example": "ecfa94e2-a04c-4cb2-8f1d-3faeca758a71"
+        },
+        "userId": {
+          "type": "string",
+          "example": "bbb7e3f5-5788-4a88-81cf-ce3a8b20951c"
+        },
+        "orderDate": {
+          "type": "string",
+          "format": "date-time",
+          "example": "2025-09-06T20:36:36.242Z"
+        },
+        "status": { "type": "string", "example": "pending" },
+        "total": { "type": "string", "example": "1499.95" },
+        "deliveryStreet": { "type": "string", "example": "Rua das Flores" },
+        "deliveryNumber": { "type": "string", "example": "123" },
+        "deliveryNeighborhood": {
+          "type": "string",
+          "example": "Jardim Primavera"
+        },
+        "deliveryComplement": { "type": "string", "example": "Apto 45" },
+        "deliveryCity": { "type": "string", "example": "São Paulo" },
+        "deliveryState": { "type": "string", "example": "SP" },
+        "deliveryZipCode": { "type": "string", "example": "01234-567" },
+        "document": { "type": "string", "example": "200.971.400-82" }
       }
     },
     "CreateOrderParams": {
       "type": "object",
       "properties": {
-        "userId": { "type": "string", "example": "uuid" },
-        "cartId": { "type": "string", "example": "uuid" }
+        "deliveryStreet": { "type": "string", "example": "Rua das Flores" },
+        "deliveryNumber": { "type": "string", "example": "123" },
+        "deliveryNeighborhood": {
+          "type": "string",
+          "example": "Jardim Primavera"
+        },
+        "deliveryComplement": { "type": "string", "example": "Apto 45" },
+        "deliveryCity": { "type": "string", "example": "São Paulo" },
+        "deliveryState": { "type": "string", "example": "SP" },
+        "deliveryZipCode": { "type": "string", "example": "01234-567" },
+        "document": { "type": "string", "example": "200.971.400-82" }
       }
     },
     "UpdateOrderParams": {
@@ -677,16 +825,94 @@
     "Payment": {
       "type": "object",
       "properties": {
-        "id": { "type": "string", "example": "uuid" },
-        "orderId": { "type": "string", "example": "uuid" },
-        "amount": { "type": "number", "example": 3500 }
+        "id": {
+          "type": "string",
+          "example": "627c7ba1-5a19-4b1b-8a1c-36d657271828"
+        },
+        "orderId": {
+          "type": "string",
+          "example": "ec6c3320-7815-4d37-91d5-492e2003dc1b"
+        },
+        "userId": {
+          "type": "string",
+          "example": "246f4f16-c50c-42ad-a766-74023c9428f8"
+        },
+        "method": { "type": "string", "example": "boleto" },
+        "status": { "type": "string", "example": "pending" },
+        "value": { "type": "string", "example": "1499.95" },
+        "asaasPaymentId": {
+          "type": "string",
+          "example": "pay_6souhaw7dtnhs6mh"
+        },
+        "asaasCustomerId": { "type": "string", "example": "cus_000006999648" },
+        "qrCodeUrl": { "type": "string", "nullable": true, "example": null },
+        "invoiceUrl": { "type": "string", "nullable": true, "example": null },
+        "cardLastDigits": {
+          "type": "string",
+          "nullable": true,
+          "example": null
+        },
+        "dueDate": {
+          "type": "string",
+          "format": "date-time",
+          "example": "2025-09-09T22:25:02.810Z"
+        },
+        "installmentCount": {
+          "type": "integer",
+          "nullable": true,
+          "example": null
+        },
+        "installmentValue": {
+          "type": "number",
+          "nullable": true,
+          "example": null
+        },
+        "billingType": { "type": "string", "example": "BOLETO" },
+        "cardHolderName": {
+          "type": "string",
+          "nullable": true,
+          "example": null
+        },
+        "cardExpiryMonth": {
+          "type": "string",
+          "nullable": true,
+          "example": null
+        },
+        "cardExpiryYear": {
+          "type": "string",
+          "nullable": true,
+          "example": null
+        },
+        "pixQrCode": { "type": "string", "nullable": true, "example": null },
+        "pixKey": { "type": "string", "nullable": true, "example": null },
+        "pixExpirationDate": {
+          "type": "string",
+          "format": "date-time",
+          "nullable": true,
+          "example": null
+        },
+        "paidAt": {
+          "type": "string",
+          "format": "date-time",
+          "nullable": true,
+          "example": null
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "example": "2025-09-06T22:25:02.809Z"
+        }
       }
     },
     "CreatePaymentParams": {
       "type": "object",
       "properties": {
-        "orderId": { "type": "string", "example": "uuid" },
-        "amount": { "type": "number", "example": 3500 }
+        "orderId": {
+          "type": "string",
+          "example": "ec6c3320-7815-4d37-91d5-492e2003dc1b"
+        },
+        "method": { "type": "string", "example": "boleto" },
+        "asaas_customer_id": { "type": "string", "example": "cus_000006999648" }
       }
     },
     "InvalidParamsResponse": {
