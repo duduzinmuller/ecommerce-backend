@@ -40,7 +40,6 @@ export class CreateUserUseCase {
 
     let asaasCustomerId: string | undefined;
     try {
-      console.log("🔍 Criando customer no Asaas...");
       const asaasCustomer = await this.createCustomerRepository.execute({
         name: createUserParams.name,
         email: createUserParams.email,
@@ -48,10 +47,6 @@ export class CreateUserUseCase {
         phone: "69999137501",
         mobilePhone: "69999137501",
       });
-      console.log(
-        "📋 Resposta completa do Asaas:",
-        JSON.stringify(asaasCustomer, null, 2),
-      );
       asaasCustomerId = asaasCustomer.id;
     } catch (error) {
       console.log("🔍 Erro detalhado:", error);
