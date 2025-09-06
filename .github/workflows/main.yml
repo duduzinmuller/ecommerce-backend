@@ -27,7 +27,7 @@ jobs:
         run: npm install -g pnpm
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile --include=dev
+        run: pnpm install --config.frozen-lockfile=true --include=dev
 
       - name: ESlint
         run: pnpm run eslint:check
