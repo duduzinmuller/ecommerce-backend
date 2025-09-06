@@ -33,7 +33,7 @@ jobs:
         run: pnpm run eslint:check
 
       - name: Prettier
-        run: pnpm run prettier:check
+        run: pnpm exec prettier --check .
 
   migrate:
     runs-on: ubuntu-latest
