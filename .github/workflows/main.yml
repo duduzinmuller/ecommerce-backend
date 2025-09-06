@@ -24,7 +24,7 @@ jobs:
           echo "JWT_REFRESH_TOKEN_SECRET=secret2" >> .env
 
       - name: Install dependencies
-        run: pnpm ci --include=dev
+        run: pnpm install --include=dev
 
       - name: ESlint
         run: pnpm run eslint:check

@@ -8,7 +8,9 @@
     "dev": "tsx watch ./src/index.ts",
     "prepare": "husky",
     "build": "tsc",
-    "commit": "npx cz"
+    "commit": "npx cz",
+    "eslint:check": "eslint .",
+    "prettier:check": "prettier --check ."
   },
   "config": {
     "commitizen": {
