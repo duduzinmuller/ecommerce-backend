@@ -9,18 +9,14 @@ import {
 
 export const cartItemRouter = Router();
 
-cartItemRouter.post(
-  "/create",
-  auth,
-  async (request: Request, response: Response) => {
-    const createCartItem = MakeCreateCartItemController();
-    const { statusCode, body } = await createCartItem.execute({
-      body: request.body,
-    });
+cartItemRouter.post("/", auth, async (request: Request, response: Response) => {
+  const createCartItem = MakeCreateCartItemController();
+  const { statusCode, body } = await createCartItem.execute({
+    body: request.body,
+  });
 
-    response.status(statusCode).send(body);
-  },
-);
+  response.status(statusCode).send(body);
+});
 
 cartItemRouter.get(
   "/cart/:cartId",

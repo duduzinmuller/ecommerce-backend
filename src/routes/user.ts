@@ -18,7 +18,7 @@ userRouter.get("/me", auth, async (request: Request, response: Response) => {
   response.status(statusCode).send(body);
 });
 
-userRouter.post("/create", async (request: Request, response: Response) => {
+userRouter.post("/", async (request: Request, response: Response) => {
   const createdUser = MakeCreateUserController();
   const { statusCode, body } = await createdUser.execute(request);
   response.status(statusCode).send(body);

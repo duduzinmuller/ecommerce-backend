@@ -9,23 +9,19 @@ import {
 
 export const orderRouter = Router();
 
-orderRouter.post(
-  "/create",
-  auth,
-  async (request: Request, response: Response) => {
-    const createdOrder = MakeCreateOrderController();
+orderRouter.post("/", auth, async (request: Request, response: Response) => {
+  const createdOrder = MakeCreateOrderController();
 
-    const userId = request.userId;
+  const userId = request.userId;
 
-    const { statusCode, body } = await createdOrder.execute({
-      body: {
-        ...request.body,
-        user_id: userId,
-      },
-    });
-    response.status(statusCode).send(body);
-  },
-);
+  const { statusCode, body } = await createdOrder.execute({
+    body: {
+      ...request.body,
+      user_id: userId,
+    },
+  });
+  response.status(statusCode).send(body);
+});
 
 orderRouter.delete(
   "/:orderId",
