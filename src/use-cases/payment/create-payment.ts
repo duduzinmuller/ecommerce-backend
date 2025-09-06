@@ -10,6 +10,7 @@ import { PaymentBaseSchema } from "../../schema/payment";
 import { BoletoPayment } from "../strategies/boleto-payment";
 import { CardPayment } from "../strategies/credit-card-payment";
 import { PixPayment } from "../strategies/pix-payment";
+import { OrderNotFoundOrUnauthorizedError } from "../../error/order";
 
 export class CreatePaymentUseCase {
   constructor(
@@ -31,25 +32,11 @@ export class CreatePaymentUseCase {
         validatedPayment.order_id,
       );
       if (!order) {
-        throw new Error("Pedido não encontrado");
+        throw new OrderNotFoundOrUnauthorizedError();
       }
 
       const paymentId = await this.idGeneratorAdapter.execute();
       const totalValue = parseFloat(order.total);
-
-      console.log("🔍 Debug Payment:", {
-        orderId: validatedPayment.order_id,
-        customerId: validatedPayment.asaas_customer_id,
-        method: validatedPayment.method,
-        totalValue,
-        orderTotal: order.total,
-      });
-
-      if (!validatedPayment.asaas_customer_id) {
-        throw new Error(
-          "Customer ID do Asaas é obrigatório para criar pagamento",
-        );
-      }
 
       let strategy;
       let asaasPayment;

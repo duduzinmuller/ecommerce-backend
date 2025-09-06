@@ -4,6 +4,7 @@ import { PaymentBaseSchema } from "../../schema/payment";
 import { CreatePaymentUseCase } from "../../use-cases/payment/create-payment";
 import { badRequest, created, serverError } from "../helpers/http";
 import { MethodPaymentNotError } from "../../error/payment";
+import { OrderNotFoundOrUnauthorizedError } from "../../error/order";
 
 export class CreatePaymentController {
   constructor(private createPaymentUseCase: CreatePaymentUseCase) {
@@ -23,6 +24,9 @@ export class CreatePaymentController {
         return badRequest(error.issues[0]?.message);
       }
       if (error instanceof MethodPaymentNotError) {
+        return badRequest(error.message);
+      }
+      if (error instanceof OrderNotFoundOrUnauthorizedError) {
         return badRequest(error.message);
       }
       console.error(error);
