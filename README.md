@@ -179,48 +179,31 @@ A API está integrada ao Asaas para geração de cobranças via boleto, pix e ca
 
 ---
 
-## Estrutura de Pastas
+---
 
-- **adapters/**  
-  Adapta funcionalidades externas como geração de IDs, hash de senhas, comparação de senhas e manipulação de tokens JWT.
+## 📁 Estrutura de Pastas (`/src`)
 
-- **config/**  
-  Configurações de serviços externos, como Asaas e envio de e-mails.
-
-- **controllers/**  
-  Lógica dos endpoints da API, organizados por domínio (usuários, produtos, pedidos, etc).
-
-- **db/**  
-  Configuração do banco de dados, schema, e scripts de seed.
-
-- **error/**  
-  Definições de erros customizados para cada domínio da aplicação.
-
-- **factories/**  
-  Funções para instanciar e compor casos de uso, repositórios e controladores.
-
-- **interfaces/**  
-  Tipagens TypeScript para entidades, DTOs, requests e responses.
-
-- **middleware/**  
-  Middlewares do Express, como autenticação JWT.
-
-- **repositories/**  
-  Implementação de acesso a dados (CRUD) para cada domínio, incluindo integração com Asaas.
-
-- **routes/**  
-  Definição das rotas HTTP da API, agrupadas por domínio.
-
-- **schema/**  
-  Schemas de validação **Zod** para cada entidade e request da API, garantindo segurança e integridade dos dados recebidos.
-
-- **use-cases/**  
-  Lógica de negócio (application services) para cada funcionalidade do sistema.
-
-- **utils/**  
-  Funções utilitárias diversas, como manipulação de documentos, valores monetários e estados.
+```
+src/
+├── adapters/           # Adapta funcionalidades externas como geração de IDs, hash de senhas, comparação de senhas e manipulação de tokens JWT..
+├── config/             # Configurações de serviços externos, como Asaas e envio de e-mails.
+├── controller/         # Lógica dos endpoints da API, organizados por domínio (usuários, produtos, pedidos, etc).
+├── db/                 # Configuração do banco de dados, schema, e scripts de seed.
+├── errors/             # Definições de erros customizados para cada domínio da aplicação.
+├── factories/          # Funções para instanciar e compor casos de uso, repositórios e controladores.
+├── interfaces/         # Tipagens TypeScript para entidades, DTOs, requests e responses.
+├── middleware/         # Middlewares do Express, como autenticação JWT.
+├── repositories/       # Implementação de acesso a dados (CRUD) para cada domínio, incluindo integração com Asaas.
+├── routes/             # Definição das rotas HTTP da API, agrupadas por domínio.
+├── schemas/            # Schemas de validação Zod para cada entidade e request da API, garantindo segurança e integridade dos dados recebidos.
+├── use-cases/          # Lógica de negócio (application services) para cada funcionalidade do sistema.
+├── utils/              # Funções utilitárias diversas, como manipulação de documentos, valores monetários e estados.
+├── app.ts              # Configuração principal do Express
+└── index.ts            # Ponto de entrada do servidor
+```
 
 ---
+
 
 ## Scripts
 
