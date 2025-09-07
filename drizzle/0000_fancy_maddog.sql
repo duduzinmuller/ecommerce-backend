@@ -29,21 +29,21 @@ BEGIN
     END IF;
 END
 $$;
-CREATE TABLE "cart_items" (
+CREATE TABLE IF NOT EXISTS "cart_items" (
 	"id" uuid PRIMARY KEY NOT NULL,
 	"cart_id" uuid NOT NULL,
 	"product_id" uuid NOT NULL,
 	"quantity" integer DEFAULT 1 NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE "carts" (
+CREATE TABLE IF NOT EXISTS "carts" (
 	"id" uuid PRIMARY KEY NOT NULL,
 	"user_id" uuid NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE "categories" (
+CREATE TABLE IF NOT EXISTS "categories" (
 	"id" uuid PRIMARY KEY NOT NULL,
 	"name" varchar(100) NOT NULL,
 	"slug" varchar(100) NOT NULL,
@@ -51,7 +51,7 @@ CREATE TABLE "categories" (
 	CONSTRAINT "categories_slug_unique" UNIQUE("slug")
 );
 --> statement-breakpoint
-CREATE TABLE "email_notifications" (
+CREATE TABLE IF NOT EXISTS "email_notifications" (
 	"id" uuid PRIMARY KEY NOT NULL,
 	"recipient" varchar(255) NOT NULL,
 	"subject" varchar(255) NOT NULL,
@@ -62,7 +62,7 @@ CREATE TABLE "email_notifications" (
 	"updated_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE "order_items" (
+CREATE TABLE IF NOT EXISTS "order_items" (
 	"id" uuid PRIMARY KEY NOT NULL,
 	"order_id" uuid NOT NULL,
 	"product_id" uuid NOT NULL,
@@ -70,7 +70,7 @@ CREATE TABLE "order_items" (
 	"unit_price" numeric(10, 2) NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE "orders" (
+CREATE TABLE IF NOT EXISTS "orders" (
 	"id" uuid PRIMARY KEY NOT NULL,
 	"user_id" uuid NOT NULL,
 	"order_date" timestamp DEFAULT now() NOT NULL,
@@ -86,7 +86,7 @@ CREATE TABLE "orders" (
 	"document" varchar(18) NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE "payments" (
+CREATE TABLE IF NOT EXISTS "payments" (
 	"id" uuid PRIMARY KEY NOT NULL,
 	"order_id" uuid NOT NULL,
 	"user_id" uuid NOT NULL,
@@ -112,7 +112,7 @@ CREATE TABLE "payments" (
 	"created_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE "products" (
+CREATE TABLE IF NOT EXISTS "products" (
 	"id" uuid PRIMARY KEY NOT NULL,
 	"name" varchar(255) NOT NULL,
 	"slug" varchar(255) NOT NULL,
@@ -126,7 +126,7 @@ CREATE TABLE "products" (
 	CONSTRAINT "products_slug_unique" UNIQUE("slug")
 );
 --> statement-breakpoint
-CREATE TABLE "users" (
+CREATE TABLE IF NOT EXISTS "users" (
 	"id" uuid PRIMARY KEY NOT NULL,
 	"name" varchar(255) NOT NULL,
 	"email" varchar(255) NOT NULL,
