@@ -50,7 +50,7 @@ jobs:
           node-version: "23"
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile --include=dev
+        run: pnpm install --config.frozen-lockfile=true --include=dev
 
       - name: Make envfile
         uses: SpicyPizza/create-envfile@v2.0
