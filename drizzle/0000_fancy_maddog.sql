@@ -1,7 +1,34 @@
-CREATE TYPE "public"."order_status" AS ENUM('pending', 'completed', 'failed', 'canceled');--> statement-breakpoint
-CREATE TYPE "public"."payment_method" AS ENUM('credit_card', 'pix', 'boleto', 'paypal', 'other');--> statement-breakpoint
-CREATE TYPE "public"."payment_status" AS ENUM('pending', 'paid', 'failed', 'refunded');--> statement-breakpoint
-CREATE TYPE "public"."send_status" AS ENUM('pending', 'sent', 'failed');--> statement-breakpoint
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'order_status') THEN
+        CREATE TYPE "public"."order_status" AS ENUM('pending', 'completed', 'failed', 'canceled');
+    END IF;
+END
+$$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'payment_method') THEN
+        CREATE TYPE "public"."payment_method" AS ENUM('credit_card', 'pix', 'boleto', 'paypal', 'other');
+    END IF;
+END
+$$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'payment_status') THEN
+        CREATE TYPE "public"."payment_status" AS ENUM('pending', 'paid', 'failed', 'refunded');
+    END IF;
+END
+$$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'send_status') THEN
+        CREATE TYPE "public"."send_status" AS ENUM('pending', 'sent', 'failed');
+    END IF;
+END
+$$;
 CREATE TABLE "cart_items" (
 	"id" uuid PRIMARY KEY NOT NULL,
 	"cart_id" uuid NOT NULL,
