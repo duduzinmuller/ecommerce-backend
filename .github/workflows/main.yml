@@ -49,6 +49,9 @@ jobs:
         with:
           node-version: "23"
 
+      - name: Install pnpm
+        run: npm install -g pnpm
+
       - name: Install dependencies
         run: pnpm install --config.frozen-lockfile=true --include=dev
 
