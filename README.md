@@ -39,7 +39,7 @@ pnpm run dev
 
 Acesse a documentação interativa em:  
 `/docs`  
-Exemplo: [http://localhost:3000/docs](http://localhost:3000/docs)
+Exemplo: [https://ecommerce-backend-6718.onrender.com/docs](https://ecommerce-backend-6718.onrender.com/docs)
 
 ---
 
